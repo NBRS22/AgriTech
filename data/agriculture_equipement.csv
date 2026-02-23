@@ -1,0 +1,41 @@
+﻿filiere,specialisation,equipement,taux
+vegetale,Grandes cultures,logiciel_specialise,49.0
+vegetale,Grandes cultures,outil_aide_decision,43.0
+vegetale,Grandes cultures,materiel_precision,52.0
+vegetale,Grandes cultures,robot,0.0
+vegetale,"Maraîchage, horticulture",logiciel_specialise,49.0
+vegetale,"Maraîchage, horticulture",outil_aide_decision,18.0
+vegetale,"Maraîchage, horticulture",materiel_precision,12.0
+vegetale,"Maraîchage, horticulture",robot,2.0
+vegetale,Viticulture,logiciel_specialise,45.0
+vegetale,Viticulture,outil_aide_decision,39.0
+vegetale,Viticulture,materiel_precision,31.0
+vegetale,Viticulture,robot,0.0
+vegetale,"Fruits, autres cultures permanentes",logiciel_specialise,30.0
+vegetale,"Fruits, autres cultures permanentes",outil_aide_decision,20.0
+vegetale,"Fruits, autres cultures permanentes",materiel_precision,13.0
+vegetale,"Fruits, autres cultures permanentes",robot,0.0
+vegetale,"Polyculture, polyélevage",logiciel_specialise,56.0
+vegetale,"Polyculture, polyélevage",outil_aide_decision,38.0
+vegetale,"Polyculture, polyélevage",materiel_precision,50.0
+vegetale,"Polyculture, polyélevage",robot,0.0
+animale,Bovins viande,logiciel_specialise,51.0
+animale,Bovins viande,outil_aide_decision,15.0
+animale,Bovins viande,materiel_precision,25.0
+animale,Bovins viande,robot,18.0
+animale,Bovins lait ou mixtes (viande et lait),logiciel_specialise,76.0
+animale,Bovins lait ou mixtes (viande et lait),outil_aide_decision,40.0
+animale,Bovins lait ou mixtes (viande et lait),materiel_precision,58.0
+animale,Bovins lait ou mixtes (viande et lait),robot,66.0
+animale,"Ovins, caprins, autres herbivores",logiciel_specialise,42.0
+animale,"Ovins, caprins, autres herbivores",outil_aide_decision,8.0
+animale,"Ovins, caprins, autres herbivores",materiel_precision,17.0
+animale,"Ovins, caprins, autres herbivores",robot,12.0
+animale,"Porcins, volailles",logiciel_specialise,68.0
+animale,"Porcins, volailles",outil_aide_decision,32.0
+animale,"Porcins, volailles",materiel_precision,79.0
+animale,"Porcins, volailles",robot,21.0
+animale,"Polyculture, polyélevage",logiciel_specialise,61.0
+animale,"Polyculture, polyélevage",outil_aide_decision,37.0
+animale,"Polyculture, polyélevage",materiel_precision,37.0
+animale,"Polyculture, polyélevage",robot,27.0

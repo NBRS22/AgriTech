@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #2e7d32;
+  --primary-light: #4caf50;
+  --secondary: #1976d2;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

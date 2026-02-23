@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b5e20"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- Leaf shape -->
+  <path d="M64 20 C64 20 30 38 30 70 C30 88 45 102 64 102 C83 102 98 88 98 70 C98 38 64 20 64 20 Z"
+        fill="url(#leaf)" opacity="0.92"/>
+
+  <!-- Center vein -->
+  <line x1="64" y1="28" x2="64" y2="98" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Side veins -->
+  <line x1="64" y1="50" x2="44" y2="62" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="64" y1="50" x2="84" y2="62" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="64" y1="65" x2="40" y2="74" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="64" y1="65" x2="88" y2="74" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Tech circuit dots -->
+  <circle cx="44" cy="62" r="3.5" fill="#ffffff" opacity="0.9"/>
+  <circle cx="84" cy="62" r="3.5" fill="#ffffff" opacity="0.9"/>
+  <circle cx="40" cy="74" r="3.5" fill="#ffffff" opacity="0.9"/>
+  <circle cx="88" cy="74" r="3.5" fill="#ffffff" opacity="0.9"/>
+  <circle cx="64" cy="98" r="4" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Small circuit lines from dots -->
+  <line x1="44" y1="62" x2="36" y2="62" stroke="#ffffff" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="84" y1="62" x2="92" y2="62" stroke="#ffffff" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="40" y1="74" x2="32" y2="74" stroke="#ffffff" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="88" y1="74" x2="96" y2="74" stroke="#ffffff" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+</svg>
