@@ -1,31 +1,31 @@
 ﻿filiere,categorie,usage,part
-vegetale,Logiciels spécialisés,Comptabilité,34
-vegetale,Logiciels spécialisés,Suivi des cultures,30
-vegetale,Logiciels spécialisés,Commerce,21
-vegetale,Logiciels spécialisés,Autre,15
-vegetale,Outils aide décision,Phytosanitaire,46
-vegetale,Outils aide décision,Fertilisation,43
-vegetale,Outils aide décision,Irrigation,9
-vegetale,Outils aide décision,Autre,2
-vegetale,Matériels précision,Capteur vitesse,36
-vegetale,Matériels précision,Guidage haute précision,22
-vegetale,Matériels précision,Coupure tronçons,19
-vegetale,Matériels précision,Autre,23
-vegetale,Robots,Désherbage mécanique,32
-vegetale,Robots,Pulvérisation,25
+vegetale,Logiciels sp�cialis�s,Comptabilit�,34
+vegetale,Logiciels sp�cialis�s,Suivi des cultures,30
+vegetale,Logiciels sp�cialis�s,Commerce,21
+vegetale,Logiciels sp�cialis�s,Autre,15
+vegetale,Outils d'aide � la d�cision,Phytosanitaire,46
+vegetale,Outils d'aide � la d�cision,Fertilisation,43
+vegetale,Outils d'aide � la d�cision,Irrigation,9
+vegetale,Outils d'aide � la d�cision,Autre,2
+vegetale,Mat�riels pr�cision,Capteur vitesse,36
+vegetale,Mat�riels pr�cision,Guidage haute pr�cision,22
+vegetale,Mat�riels pr�cision,Coupure tron�ons,19
+vegetale,Mat�riels pr�cision,Autre,23
+vegetale,Robots,D�sherbage m�canique,32
+vegetale,Robots,Pulv�risation,25
 vegetale,Robots,Travail du sol,19
 vegetale,Robots,Autre,24
-animale,Logiciels spécialisés,Comptabilité,25
-animale,Logiciels spécialisés,Gestion animaux,39
-animale,Logiciels spécialisés,Commerce,11
-animale,Logiciels spécialisés,Autre,25
-animale,Outils aide décision,Phytosanitaire,40
-animale,Outils aide décision,Fertilisation,43
-animale,Outils aide décision,Autre,17
-animale,Matériels précision,"Surveillance (caméras, GPS)",17
-animale,Matériels précision,Régulation bâtiments,24
-animale,Matériels précision,Suivi santé,30
-animale,Matériels précision,Autre,29
+animale,Logiciels sp�cialis�s,Comptabilit�,25
+animale,Logiciels sp�cialis�s,Gestion animaux,39
+animale,Logiciels sp�cialis�s,Commerce,11
+animale,Logiciels sp�cialis�s,Autre,25
+animale,Outils d'aide � la d�cision,Phytosanitaire,40
+animale,Outils d'aide � la d�cision,Fertilisation,43
+animale,Outils d'aide � la d�cision,Autre,17
+animale,Mat�riels pr�cision,"Surveillance (cam�ras, GPS)",17
+animale,Mat�riels pr�cision,R�gulation b�timents,24
+animale,Mat�riels pr�cision,Suivi sant�,30
+animale,Mat�riels pr�cision,Autre,29
 animale,Robots automates,Alimentation,64
 animale,Robots automates,Traite,9
 animale,Robots automates,Nettoyage,20

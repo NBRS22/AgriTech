@@ -1,4 +1,4 @@
-export interface EquipementData {
+﻿export interface EquipementData {
   filiere: 'vegetale' | 'animale';
   specialisation: string;
   equipement: string;
@@ -60,10 +60,10 @@ export const usageData: UsageData[] = [
   { filiere: "vegetale", categorie: "Logiciels spécialisés", usage: "Suivi des cultures", part: 30 },
   { filiere: "vegetale", categorie: "Logiciels spécialisés", usage: "Commerce", part: 21 },
   { filiere: "vegetale", categorie: "Logiciels spécialisés", usage: "Autre", part: 15 },
-  { filiere: "vegetale", categorie: "Outils aide décision", usage: "Phytosanitaire", part: 46 },
-  { filiere: "vegetale", categorie: "Outils aide décision", usage: "Fertilisation", part: 43 },
-  { filiere: "vegetale", categorie: "Outils aide décision", usage: "Irrigation", part: 9 },
-  { filiere: "vegetale", categorie: "Outils aide décision", usage: "Autre", part: 2 },
+  { filiere: "vegetale", categorie: "Outils d'aide à la décision", usage: "Phytosanitaire", part: 46 },
+  { filiere: "vegetale", categorie: "Outils d'aide à la décision", usage: "Fertilisation", part: 43 },
+  { filiere: "vegetale", categorie: "Outils d'aide à la décision", usage: "Irrigation", part: 9 },
+  { filiere: "vegetale", categorie: "Outils d'aide à la décision", usage: "Autre", part: 2 },
   { filiere: "vegetale", categorie: "Matériels précision", usage: "Capteur vitesse", part: 36 },
   { filiere: "vegetale", categorie: "Matériels précision", usage: "Guidage haute précision", part: 22 },
   { filiere: "vegetale", categorie: "Matériels précision", usage: "Coupure tronçons", part: 19 },
@@ -76,9 +76,9 @@ export const usageData: UsageData[] = [
   { filiere: "animale", categorie: "Logiciels spécialisés", usage: "Gestion animaux", part: 39 },
   { filiere: "animale", categorie: "Logiciels spécialisés", usage: "Commerce", part: 11 },
   { filiere: "animale", categorie: "Logiciels spécialisés", usage: "Autre", part: 25 },
-  { filiere: "animale", categorie: "Outils aide décision", usage: "Phytosanitaire", part: 40 },
-  { filiere: "animale", categorie: "Outils aide décision", usage: "Fertilisation", part: 43 },
-  { filiere: "animale", categorie: "Outils aide décision", usage: "Autre", part: 17 },
+  { filiere: "animale", categorie: "Outils d'aide à la décision", usage: "Phytosanitaire", part: 40 },
+  { filiere: "animale", categorie: "Outils d'aide à la décision", usage: "Fertilisation", part: 43 },
+  { filiere: "animale", categorie: "Outils d'aide à la décision", usage: "Autre", part: 17 },
   { filiere: "animale", categorie: "Matériels précision", usage: "Surveillance (caméras, GPS)", part: 17 },
   { filiere: "animale", categorie: "Matériels précision", usage: "Régulation bâtiments", part: 24 },
   { filiere: "animale", categorie: "Matériels précision", usage: "Suivi santé", part: 30 },
@@ -98,7 +98,7 @@ export const typesEquipement = [
 
 export const equipementLabels: Record<string, string> = {
   logiciel_specialise: "Logiciels spécialisés",
-  outil_aide_decision: "Outils aide décision",
+  outil_aide_decision: "Outils d'aide à la décision",
   materiel_precision: "Matériels de précision",
   robot: "Robots"
 };

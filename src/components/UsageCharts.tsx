@@ -1,4 +1,4 @@
-import { usageData } from '../data/equipement';
+﻿import { usageData } from '../data/equipement';
 import { Monitor, Brain, Target, Bot } from 'lucide-react';
 
 interface UsageChartsProps {
@@ -7,7 +7,7 @@ interface UsageChartsProps {
 
 const categoryConfig: Record<string, { icon: typeof Monitor; gradient: string }> = {
   "Logiciels spécialisés": { icon: Monitor, gradient: "from-green-500 to-green-400" },
-  "Outils aide décision": { icon: Brain, gradient: "from-blue-500 to-blue-400" },
+  "Outils d'aide à la décision": { icon: Brain, gradient: "from-blue-500 to-blue-400" },
   "Matériels précision": { icon: Target, gradient: "from-orange-500 to-orange-400" },
   "Robots": { icon: Bot, gradient: "from-purple-500 to-purple-400" },
   "Robots automates": { icon: Bot, gradient: "from-purple-500 to-purple-400" }

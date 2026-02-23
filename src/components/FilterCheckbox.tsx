@@ -1,4 +1,4 @@
-interface FilterCheckboxProps {
+﻿interface FilterCheckboxProps {
   items: string[];
   selected: Set<string>;
   onChange: (selected: Set<string>) => void;

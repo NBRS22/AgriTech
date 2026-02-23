@@ -1,4 +1,4 @@
-interface StatCardProps {
+﻿interface StatCardProps {
   value: string | number;
   label: string;
   variant?: 'primary' | 'secondary';

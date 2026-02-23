@@ -1,4 +1,4 @@
-import { BarChart3 } from 'lucide-react';
+﻿import { BarChart3 } from 'lucide-react';
 
 export default function Header() {
   return (

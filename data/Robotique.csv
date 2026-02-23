@@ -1,0 +1,76 @@
+region,outil,esea_2023,demi_intervalle
+AUVERGNE RHONE ALPES,Robot affouragement,389,153
+AUVERGNE RHONE ALPES,Distributeur automatique,2417,378
+AUVERGNE RHONE ALPES,Systeme nettoyage automatise,2464,389
+AUVERGNE RHONE ALPES,Paillage automatise,724,272
+AUVERGNE RHONE ALPES,Robot de traite,669,220
+
+BOURGOGNE FRANCHE COMTE,Robot affouragement,178,75
+BOURGOGNE FRANCHE COMTE,Distributeur automatique,1955,202
+BOURGOGNE FRANCHE COMTE,Systeme nettoyage automatise,1615,221
+BOURGOGNE FRANCHE COMTE,Paillage automatise,740,186
+BOURGOGNE FRANCHE COMTE,Robot de traite,293,87
+
+BRETAGNE,Robot affouragement,753,177
+BRETAGNE,Distributeur automatique,3511,416
+BRETAGNE,Systeme nettoyage automatise,3142,351
+BRETAGNE,Paillage automatise,345,208
+BRETAGNE,Robot de traite,1771,333
+
+CENTRE VAL DE LOIRE,Robot affouragement,111,53
+CENTRE VAL DE LOIRE,Distributeur automatique,441,135
+CENTRE VAL DE LOIRE,Systeme nettoyage automatise,283,92
+CENTRE VAL DE LOIRE,Paillage automatise,256,99
+CENTRE VAL DE LOIRE,Robot de traite,164,67
+
+CORSE,Robot affouragement,0,0
+CORSE,Distributeur automatique,25,16
+CORSE,Systeme nettoyage automatise,3,3
+CORSE,Paillage automatise,0,0
+
+GRAND EST,Robot affouragement,492,116
+GRAND EST,Distributeur automatique,1577,188
+GRAND EST,Systeme nettoyage automatise,1498,197
+GRAND EST,Paillage automatise,392,143
+GRAND EST,Robot de traite,1149,178
+
+HAUTS DE FRANCE,Robot affouragement,132,46
+HAUTS DE FRANCE,Distributeur automatique,1102,196
+HAUTS DE FRANCE,Systeme nettoyage automatise,815,157
+HAUTS DE FRANCE,Paillage automatise,427,128
+HAUTS DE FRANCE,Robot de traite,497,107
+
+ILE DE FRANCE,Robot affouragement,24,23
+ILE DE FRANCE,Distributeur automatique,36,25
+ILE DE FRANCE,Systeme nettoyage automatise,32,21
+ILE DE FRANCE,Paillage automatise,6,7
+ILE DE FRANCE,Robot de traite,25,23
+
+NORMANDIE,Robot affouragement,538,160
+NORMANDIE,Distributeur automatique,2290,292
+NORMANDIE,Systeme nettoyage automatise,2446,273
+NORMANDIE,Paillage automatise,583,172
+NORMANDIE,Robot de traite,1114,247
+
+NOUVELLE AQUITAINE,Robot affouragement,153,71
+NOUVELLE AQUITAINE,Distributeur automatique,1754,248
+NOUVELLE AQUITAINE,Systeme nettoyage automatise,1110,225
+NOUVELLE AQUITAINE,Paillage automatise,803,210
+NOUVELLE AQUITAINE,Robot de traite,345,106
+
+OCCITANIE,Robot affouragement,239,187
+OCCITANIE,Distributeur automatique,1703,317
+OCCITANIE,Systeme nettoyage automatise,859,266
+OCCITANIE,Paillage automatise,1290,466
+OCCITANIE,Robot de traite,133,67
+
+PAYS DE LA LOIRE,Robot affouragement,641,239
+PAYS DE LA LOIRE,Distributeur automatique,2895,448
+PAYS DE LA LOIRE,Systeme nettoyage automatise,3036,388
+PAYS DE LA LOIRE,Paillage automatise,750,279
+PAYS DE LA LOIRE,Robot de traite,1528,380
+
+PROVENCE ALPES COTE D AZUR,Robot affouragement,31,28
+PROVENCE ALPES COTE D AZUR,Distributeur automatique,72,43
+PROVENCE ALPES COTE D AZUR,Systeme nettoyage automatise,56,36
+PROVENCE ALPES COTE D AZUR,Paillage automatise,120,53
