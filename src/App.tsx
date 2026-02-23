@@ -3,11 +3,12 @@ import Card from './components/Card';
 import Select from './components/Select';
 import RadarChart from './components/RadarChart';
 import MapChart from './components/MapChart';
+import AccueilPage from './components/AccueilPage';
 import { equipementData, filiereColors } from './data/equipement';
 import * as d3 from 'd3';
 import { Info } from 'lucide-react';
 
-type Filiere = 'comparaison' | 'vegetale' | 'animale' | 'carte';
+type Filiere = 'accueil' | 'comparaison' | 'vegetale' | 'animale' | 'carte';
 type Echelle = 'lineaire' | 'racine_carree' | 'logarithmique';
 
 const outilOptions = [
@@ -18,8 +19,7 @@ const outilOptions = [
   { value: 'Robot de traite',                label: 'Robot de traite' },
 ];
 
-const filiereOptions = [
-  { value: 'comparaison', label: 'Comparaison par filière' },
+const filiereOptions = [  { value: 'accueil', label: 'Accueil' },  { value: 'comparaison', label: 'Comparaison par filière' },
   { value: 'vegetale', label: 'Filière Végétale' },
   { value: 'animale', label: 'Filière Animale' },
   { value: 'carte', label: 'Robotique pour l’élevage' },
@@ -51,7 +51,7 @@ const echelleNotes: Record<Echelle, string> = {
 
 export default function App() {
   const [outilSelectionne, setOutilSelectionne] = useState('Distributeur automatique');
-  const [filiere, setFiliere] = useState<Filiere>('comparaison');
+  const [filiere, setFiliere] = useState<Filiere>('accueil');
   const [echelle, setEchelle] = useState<Echelle>('lineaire');
   const [selectedSpecs, setSelectedSpecs] = useState<Set<string>>(new Set());
   const [selectedFilieres, setSelectedFilieres] = useState<Set<string>>(new Set(['vegetale', 'animale']));
@@ -120,8 +120,7 @@ export default function App() {
                 </span>
                 <div className="w-8 h-px bg-slate-200 rounded-full" />
                 <div className="flex flex-col items-center gap-0.5">
-                  <span className="text-[11px] font-medium text-slate-500">Nour EL Bachari</span>
-                  <span className="text-[11px] font-medium text-slate-500">Asmae HMIDANI</span>
+                  <span className="text-[11px] font-medium text-slate-500">Réalisé par <strong>Nour EL Bachari</strong> &amp; <strong>Asmae HMIDANI</strong></span>
                 </div>
               </div>
             </div>
@@ -141,17 +140,18 @@ export default function App() {
                     onChange={(v) => setOutilSelectionne(v)}
                     options={outilOptions}
                   />
-                ) : (
+                ) : filiere !== 'accueil' ? (
                   <Select
                     label="Type d'échelle"
                     value={echelle}
                     onChange={(v) => setEchelle(v as Echelle)}
                     options={echelleOptions}
                   />
-                )}
+                ) : null}
               </div>
             </Card>
 
+            {filiere !== 'accueil' && (
             <Card title="Données">
               <div className="flex gap-3">
                 <Info className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -182,11 +182,14 @@ export default function App() {
                 )}
               </div>
             </Card>
+            )}
           </div>
 
           {/* Main Content */}
           <div className="flex flex-col gap-4">
-            {filiere === 'carte' ? (
+            {filiere === 'accueil' ? (
+              <AccueilPage />
+            ) : filiere === 'carte' ? (
               <Card>
                 <MapChart outilSelectionne={outilSelectionne} />
               </Card>
@@ -216,7 +219,7 @@ export default function App() {
               )}
             </Card>
 
-            {(filiere === 'comparaison' || specialisations.length > 0) && filiere !== 'carte' && (
+            {(filiere === 'comparaison' || specialisations.length > 0) && (
               <Card
                 title="Légende et filtre"
                 actions={

@@ -97,15 +97,14 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
   useEffect(() => {
     if (!svgRef.current || !robotData.length || !geoData) return;
 
-    const width = 820;
-    const height = 580;
+    const width = 720;
+    const height = 510;
 
     // Data for the selected outil
     const filtered = robotData.filter(d => d.outil === outilSelectionne);
     const dataMap = new Map(filtered.map(d => [normalizeRegion(d.region), d]));
 
     const vals = filtered.map(d => d.esea_2023).filter(v => v > 0).sort(d3.ascending);
-    const maxVal = d3.max(vals) || 1;
 
     // Quantile threshold scale → 6 discrete color steps
     const quantileScale = d3.scaleQuantile<string>()
@@ -135,20 +134,30 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
       .attr('dx', 0).attr('dy', 1).attr('stdDeviation', 1.5)
       .attr('flood-color', '#00000022');
 
-    // White halo filter for readable text labels
-    const halo = defs.append('filter').attr('id', 'halo');
+    // White halo filter (dark text on light fills)
+    const halo = defs.append('filter').attr('id', 'halo-light');
     halo.append('feMorphology')
-      .attr('in', 'SourceGraphic').attr('operator', 'dilate').attr('radius', 1.5).attr('result', 'e');
-    halo.append('feFlood').attr('flood-color', '#fff').attr('result', 'c');
+      .attr('in', 'SourceGraphic').attr('operator', 'dilate').attr('radius', 2).attr('result', 'e');
+    halo.append('feFlood').attr('flood-color', '#ffffff').attr('result', 'c');
     halo.append('feComposite').attr('in', 'c').attr('in2', 'e').attr('operator', 'in').attr('result', 'o');
     const haloMerge = halo.append('feMerge');
     haloMerge.append('feMergeNode').attr('in', 'o');
     haloMerge.append('feMergeNode').attr('in', 'SourceGraphic');
 
+    // Dark halo filter (white text on dark fills)
+    const halo2 = defs.append('filter').attr('id', 'halo-dark');
+    halo2.append('feMorphology')
+      .attr('in', 'SourceGraphic').attr('operator', 'dilate').attr('radius', 2).attr('result', 'e2');
+    halo2.append('feFlood').attr('flood-color', '#052e16').attr('result', 'c2');
+    halo2.append('feComposite').attr('in', 'c2').attr('in2', 'e2').attr('operator', 'in').attr('result', 'o2');
+    const haloMerge2 = halo2.append('feMerge');
+    haloMerge2.append('feMergeNode').attr('in', 'o2');
+    haloMerge2.append('feMergeNode').attr('in', 'SourceGraphic');
+
     // ─── Projection ──────────────────────────────────────────────────
     const projection = d3.geoConicConformal()
       .center([2.454071, 46.279229])
-      .scale(2800)
+      .scale(2450)
       .translate([width / 2 - 20, height / 2 + 10]);
 
     const path = d3.geoPath().projection(projection);
@@ -228,6 +237,15 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
       });
 
     // ─── Region labels ───────────────────────────────────────────────
+    // Determine text color based on fill darkness
+    const getLabelColors = (esea: number) => {
+      if (esea <= 0) return { text: '#64748b', halo: 'url(#halo-light)' };
+      const idx = COLOR_STEPS.indexOf(quantileScale(esea));
+      return idx >= 3
+        ? { text: '#ffffff', halo: 'url(#halo-dark)' }
+        : { text: '#1e293b', halo: 'url(#halo-light)' };
+    };
+
     regionsGroup.selectAll<SVGGElement, GeoFeature>('.rlabel')
       .data(geoData.features)
       .join('g')
@@ -243,24 +261,28 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
         const esea = val?.esea_2023 ?? 0;
         const isSmall = SMALL_REGIONS.has(feature.properties.nom);
         const abrev = ABREV[feature.properties.nom] ?? feature.properties.nom.slice(0, 4);
+        const { text, halo } = getLabelColors(esea);
         const g = d3.select(this);
 
+        // Abbreviation
         g.append('text')
-          .attr('y', isSmall ? -5 : -6)
+          .attr('y', isSmall ? -4 : -5)
           .attr('dominant-baseline', 'middle')
-          .attr('font-size', isSmall ? 6 : 8)
-          .attr('font-weight', '700')
-          .attr('fill', '#1e293b')
-          .attr('filter', 'url(#halo)')
+          .attr('font-size', isSmall ? 7 : 10)
+          .attr('font-weight', '800')
+          .attr('letter-spacing', '0.5')
+          .attr('fill', text)
+          .attr('filter', halo)
           .text(abrev);
 
+        // Value — plain text, no background
         g.append('text')
-          .attr('y', isSmall ? 4 : 7)
+          .attr('y', isSmall ? 5 : 7)
           .attr('dominant-baseline', 'middle')
           .attr('font-size', isSmall ? 6 : 9)
           .attr('font-weight', '600')
-          .attr('fill', '#1e293b')
-          .attr('filter', 'url(#halo)')
+          .attr('fill', text)
+          .attr('filter', halo)
           .text(esea > 0 ? esea.toLocaleString('fr-FR') : '—');
       });
 
@@ -269,7 +291,6 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
     const lgY = height - 110;
     const stepW = 28;
     const stepH = 14;
-    const thresholds = quantileScale.quantiles();
     const lgGroup = svg.append('g').attr('transform', `translate(${lgX},${lgY})`);
 
     lgGroup.append('text')
@@ -316,7 +337,9 @@ export default function MapChart({ outilSelectionne }: MapChartProps) {
         .attr('cx', 18).attr('cy', 9).attr('r', 8).attr('fill', medalColors[i]);
       rowG.append('text')
         .attr('x', 18).attr('y', 9)
-        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
+        .attr('dy', '0.05em')
         .attr('font-size', 8).attr('font-weight', '700').attr('fill', '#fff')
         .text(i + 1);
 
