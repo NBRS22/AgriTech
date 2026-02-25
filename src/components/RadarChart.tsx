@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { EquipementData } from '../data/equipement';
 import { typesEquipement, equipementLabels, filiereColors, equipementData, usageData } from '../data/equipement';
@@ -31,11 +31,11 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current) return;
 
-    const popupW = 280;
-    const width = Math.min(1100, containerWidth || 900);
+    const popupW = filiere === 'comparaison' ? 280 : 0;
+    const width = Math.min(filiere === 'comparaison' ? 1100 : 900, containerWidth || 900);
     const height = 490;
     const margin = 70;
-    const radarAreaWidth = width - popupW - 40;
+    const radarAreaWidth = width - (filiere === 'comparaison' ? popupW + 40 : 0);
     const radius = Math.min(radarAreaWidth, height) / 2 - margin;
 
     const radarOffsetX = radarAreaWidth / 2;
@@ -48,8 +48,6 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
       .attr('width', width)
       .attr('height', height)
       .attr('viewBox', [0, 0, width, height]);
-
-    svg.on('click', () => drawEmptyPanel(svg, popupFixedX, height));
 
     const g = svg.append('g')
       .attr('transform', `translate(${radarOffsetX}, ${radarOffsetY})`);
@@ -172,18 +170,12 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('stroke', '#d1d5db')
         .attr('stroke-width', 1.5);
 
-      const labelX = Math.cos(angle) * (radius + 35);
-      const labelY = Math.sin(angle) * (radius + 35);
+      const labelX = Math.cos(angle) * (radius + 55);
+      const labelY = Math.sin(angle) * (radius + 55);
 
       const labelGroup = axes.append('g')
         .attr('transform', `translate(${labelX}, ${labelY})`)
-        .style('cursor', filiere !== 'comparaison' ? 'pointer' : 'default');
-
-      // Invisible hit area
-      labelGroup.append('rect')
-        .attr('x', -55).attr('y', -12)
-        .attr('width', 110).attr('height', 24)
-        .attr('fill', 'transparent');
+        .style('cursor', 'default');
 
       const labelText = labelGroup.append('text')
         .attr('text-anchor', 'middle')
@@ -192,42 +184,6 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('font-size', 11)
         .attr('font-weight', '600')
         .attr('fill', '#374151');
-
-      if (filiere !== 'comparaison') {
-        labelGroup
-          .on('mouseenter', function() {
-            labelText.attr('fill', '#16a34a').attr('font-size', 12);
-          })
-          .on('mouseleave', function() {
-            const isActive = svg.select('.donut-overlay').attr('data-eq') === type;
-            labelText.attr('fill', isActive ? '#16a34a' : '#374151').attr('font-size', isActive ? 12 : 11);
-          })
-          .on('click', function(event) {
-            event.stopPropagation();
-
-            // Reset all labels
-            axes.selectAll<SVGTextElement, unknown>('text')
-              .attr('fill', '#374151').attr('font-size', 11);
-            labelText.attr('fill', '#16a34a').attr('font-size', 12);
-
-            const existing = svg.select('.donut-overlay');
-            if (!existing.empty() && existing.attr('data-eq') === type) {
-              labelText.attr('fill', '#374151').attr('font-size', 11);
-              drawEmptyPanel(svg, popupFixedX, height);
-              return;
-            }
-
-            const fakeDatum: EquipementData & { category: string } = {
-              filiere: filiere as 'vegetale' | 'animale',
-              specialisation: '',
-              equipement: type,
-              taux: 0,
-              category: filiere as string,
-            };
-            drawUsageList(svg, fakeDatum, popupFixedX, height);
-            svg.select('.donut-overlay').attr('data-eq', type).attr('data-cat', '');
-          });
-      }
     });
 
     // Radar paths
@@ -328,10 +284,12 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         });
     }
 
-    // Draw initial empty panel
-    drawEmptyPanel(svg, popupFixedX, height);
+    // Draw initial empty panel (comparaison mode only)
+    if (filiere === 'comparaison') {
+      drawEmptyPanel(svg, popupFixedX, height);
+    }
 
-    // Empty panel function
+    // Empty panel function (comparaison mode only)
     function drawEmptyPanel(
       svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
       fixedX: number,
@@ -376,10 +334,6 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .text('👆');
 
       // Message
-      const line1 = filiere === 'comparaison' ? 'Sélectionnez un point' : "Sélectionnez un équipement";
-      const line2 = filiere === 'comparaison' ? 'pour voir la répartition' : "pour voir les types";
-      const line3 = filiere === 'comparaison' ? 'des usages' : "d'usage associés";
-
       overlay.append('text')
         .attr('x', localPopupW / 2)
         .attr('y', popupH / 2 + 20)
@@ -387,7 +341,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('font-size', 13)
         .attr('font-weight', '600')
         .attr('fill', '#64748b')
-        .text(line1);
+        .text('Sélectionnez un point');
 
       overlay.append('text')
         .attr('x', localPopupW / 2)
@@ -395,7 +349,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 11)
         .attr('fill', '#94a3b8')
-        .text(line2);
+        .text('pour voir la répartition');
 
       overlay.append('text')
         .attr('x', localPopupW / 2)
@@ -403,7 +357,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 11)
         .attr('fill', '#94a3b8')
-        .text(line3);
+        .text('des usages');
     }
 
     // Donut drawing function
@@ -432,7 +386,9 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
       const dHole = 40;
       const localPopupW = 280;
       const rowH = 20;
-      const popupH = 50 + dR * 2 + 20 + usageRows.length * rowH + 16;
+      const titleDonutGap = 28;
+      const donutLegendGap = titleDonutGap;
+      const popupH = 50 + titleDonutGap + dR * 2 + donutLegendGap + usageRows.length * rowH + 16;
 
       const px = fixedX;
       const py = (svgHeight - popupH) / 2;
@@ -478,9 +434,9 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('fill', '#999')
         .text(`${fil === 'vegetale' ? 'Végétale' : 'Animale'} — répartition des usages`);
 
-      // Donut
+      // Donut (with space below title for popup)
       const donutGroup = overlay.append('g')
-        .attr('transform', `translate(${localPopupW / 2}, ${50 + dR})`);
+        .attr('transform', `translate(${localPopupW / 2}, ${50 + titleDonutGap + dR})`);
 
       const colorDonut = d3.scaleOrdinal<string>()
         .domain(usageRows.map(d => d.usage))
@@ -490,8 +446,8 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
       const arc = d3.arc<d3.PieArcDatum<typeof usageRows[0]>>().innerRadius(dHole).outerRadius(dR);
       const arcHover = d3.arc<d3.PieArcDatum<typeof usageRows[0]>>().innerRadius(dHole).outerRadius(dR + 6);
 
-      // Tooltip
-      const ttY = -dR - 14;
+      // Tooltip (positioned above donut)
+      const ttY = -dR - 20;
       const tooltip = donutGroup.append('g').attr('opacity', 0).style('pointer-events', 'none');
       tooltip.append('rect')
         .attr('x', -70).attr('y', ttY - 10)
@@ -534,9 +490,9 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('fill', '#333')
         .text(`${datum.taux}%`);
 
-      // Usage legend — single column centered
+      // Usage legend — single column centered (same gap as title-donut)
       const lgGrp = overlay.append('g')
-        .attr('transform', `translate(${(localPopupW - 200) / 2}, ${50 + dR * 2 + 20})`);
+        .attr('transform', `translate(${(localPopupW - 200) / 2}, ${50 + titleDonutGap + dR * 2 + donutLegendGap})`);
 
       usageRows.forEach((d, i) => {
         const lg = lgGrp.append('g')
@@ -554,104 +510,6 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
           .attr('font-size', 10)
           .attr('fill', '#555')
           .text(`${d.usage} (${d.part}%)`);
-      });
-    }
-
-    // Usage list popup for filière mode (animale / végétale)
-    function drawUsageList(
-      svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-      datum: EquipementData & { category: string },
-      fixedX: number,
-      svgHeight: number
-    ) {
-      svg.select('.donut-overlay').remove();
-
-      const getCategorieUsage = (equipement: string, f: string) => ({
-        logiciel_specialise: 'Logiciels spécialisés',
-        outil_aide_decision: "Outils d'aide à la décision",
-        materiel_precision: 'Matériels précision',
-        robot: f === 'animale' ? 'Robots automates' : 'Robots'
-      }[equipement] || '');
-
-      const categorie = getCategorieUsage(datum.equipement, filiere as string);
-      const usageRows = usageData.filter(d => d.filiere === filiere && d.categorie === categorie);
-      if (usageRows.length === 0) return;
-
-      const localPopupW = 280;
-      const rowH = 34;
-      const headerH = 76;
-      const paddingBottom = 12;
-      const popupH = headerH + usageRows.length * rowH + paddingBottom;
-
-      const px = fixedX;
-      const py = (svgHeight - popupH) / 2;
-
-      const overlay = svg.append('g')
-        .attr('class', 'donut-overlay')
-        .attr('transform', `translate(${px}, ${py})`);
-
-      let defs = svg.select('defs') as d3.Selection<SVGDefsElement, unknown, null, undefined>;
-      if (defs.empty()) defs = svg.append('defs');
-      if (defs.select('#dshadow').empty()) {
-        const f = defs.append('filter').attr('id', 'dshadow')
-          .attr('x', '-20%').attr('y', '-20%').attr('width', '140%').attr('height', '140%');
-        f.append('feDropShadow').attr('dx', 0).attr('dy', 2).attr('stdDeviation', 4)
-          .attr('flood-color', '#00000020');
-      }
-
-      // Background
-      overlay.append('rect')
-        .attr('width', localPopupW).attr('height', popupH).attr('rx', 12)
-        .attr('fill', '#fff').attr('filter', 'url(#dshadow)');
-
-      // Title — equipment type
-      overlay.append('text')
-        .attr('x', localPopupW / 2).attr('y', 22).attr('text-anchor', 'middle')
-        .attr('font-size', 13).attr('font-weight', '700').attr('fill', '#1e293b')
-        .text(equipementLabels[datum.equipement]);
-
-      // Subtitle — specialisation
-      overlay.append('text')
-        .attr('x', localPopupW / 2).attr('y', 38).attr('text-anchor', 'middle')
-        .attr('font-size', 10).attr('fill', '#94a3b8')
-        .text(datum.category ? datum.category : (filiere === 'vegetale' ? 'Végétale' : 'Animale'));
-
-      // Divider
-      overlay.append('line')
-        .attr('x1', 16).attr('y1', 52).attr('x2', localPopupW - 16).attr('y2', 52)
-        .attr('stroke', '#e5e7eb').attr('stroke-width', 1);
-
-      // Section label
-      overlay.append('text')
-        .attr('x', 16).attr('y', 67).attr('font-size', 9).attr('font-weight', '700')
-        .attr('fill', '#94a3b8').attr('letter-spacing', '0.08em')
-        .text("TYPES D'USAGE");
-
-      const colorList = d3.scaleOrdinal<string>()
-        .domain(usageRows.map(d => d.usage))
-        .range(d3.schemeSet2);
-
-      usageRows.forEach((d, i) => {
-        const rowY = headerH + i * rowH;
-        const row = overlay.append('g').attr('transform', `translate(0, ${rowY})`);
-
-        // Row background
-        row.append('rect')
-          .attr('x', 10).attr('y', 2)
-          .attr('width', localPopupW - 20).attr('height', rowH - 4)
-          .attr('rx', 7).attr('fill', '#f8fafc');
-
-        // Color dot
-        row.append('circle')
-          .attr('cx', 26).attr('cy', rowH / 2)
-          .attr('r', 5).attr('fill', colorList(d.usage));
-
-        // Usage label
-        row.append('text')
-          .attr('x', 38).attr('y', rowH / 2)
-          .attr('dominant-baseline', 'middle')
-          .attr('font-size', 11).attr('fill', '#374151').attr('font-weight', '500')
-          .text(d.usage);
       });
     }
 

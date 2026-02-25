@@ -29,12 +29,7 @@ export default function AccueilPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Objectifs */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-base" style={{ background: '#f0fdf4' }}>
-              🎯
-            </div>
-            <h2 className="text-base font-bold text-slate-800">Objectifs</h2>
-          </div>
+          <h2 className="text-base font-bold text-slate-800 mb-4">Objectifs</h2>
           <ul className="space-y-3">
             {[
               "Analyser les taux d’équipement numérique par filière agricole (végétale & animale)",
@@ -54,12 +49,7 @@ export default function AccueilPage() {
 
         {/* Sources */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-base" style={{ background: '#f0fdf4' }}>
-              📊
-            </div>
-            <h2 className="text-base font-bold text-slate-800">Sources de données</h2>
-          </div>
+          <h2 className="text-base font-bold text-slate-800 mb-4">Sources de données</h2>
           <div className="space-y-4">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">INSEE — 2023</p>
@@ -95,37 +85,27 @@ export default function AccueilPage() {
 
       {/* Vues disponibles */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-        <div className="flex items-center gap-2 mb-5">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-base" style={{ background: '#f0fdf4' }}>
-            🗺️
-          </div>
-          <h2 className="text-base font-bold text-slate-800">Vues disponibles</h2>
-        </div>
+        <h2 className="text-base font-bold text-slate-800 mb-5">Vues disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             {
-              icon: '🔄',
               title: 'Comparaison par filière',
               desc: "Vue radar comparative entre filières végétale et animale sur l'ensemble des indicateurs numériques.",
             },
             {
-              icon: '🌿',
               title: 'Filière Végétale',
               desc: "Détail des taux d'équipement numérique pour chaque spécialisation de la production végétale.",
             },
             {
-              icon: '🐄',
               title: 'Filière Animale',
               desc: "Analyse des équipements numériques dans les différentes spécialisations de l'élevage.",
             },
             {
-              icon: '📍',
               title: 'Carte — Robotique élevage',
               desc: "Choroplèthe régionale indiquant le nombre d'exploitations équipées en robots d'élevage (ESEA 2023).",
             },
           ].map((v) => (
             <div key={v.title} className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-green-200 hover:bg-green-50 transition-all duration-200">
-              <span className="text-xl flex-shrink-0 mt-0.5">{v.icon}</span>
               <div>
                 <p className="text-sm font-semibold text-slate-800 mb-1">{v.title}</p>
                 <p className="text-xs text-slate-500 leading-relaxed">{v.desc}</p>

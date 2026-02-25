@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Card from './components/Card';
 import Select from './components/Select';
 import RadarChart from './components/RadarChart';
@@ -104,8 +104,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <main className="max-w-7xl mx-auto px-6 py-8">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center py-8">
+      <main className="w-full max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
           {/* Sidebar */}
           <div className="space-y-4">
