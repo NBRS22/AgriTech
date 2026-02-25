@@ -177,7 +177,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('transform', `translate(${labelX}, ${labelY})`)
         .style('cursor', 'default');
 
-      const labelText = labelGroup.append('text')
+      labelGroup.append('text')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
         .text(equipementLabels[type])
