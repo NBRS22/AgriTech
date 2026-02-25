@@ -7,11 +7,10 @@ import RadarChart from './components/RadarChart';
 import MapChart from './components/MapChart';
 import AccueilPage from './components/AccueilPage';
 import { equipementData, filiereColors } from './data/equipement';
-import * as d3 from 'd3';
+import { schemeTableau10 } from 'd3-scale-chromatic';
+import type { Filiere, Echelle } from './types';
+import { CARTE_FILIERES } from './types';
 import { Info, ChevronLeft, ChevronRight, Minus, SquareRadical, Search } from 'lucide-react';
-
-type Filiere = 'accueil' | 'comparaison' | 'vegetale' | 'animale' | 'carte' | 'carte_vegetale' | 'carte_precision' | 'carte_aide_decision' | 'carte_logiciels';
-type Echelle = 'lineaire' | 'racine_carree' | 'logarithmique';
 
 const outilOptionsAnimal = [
   { value: 'Robot affouragement', label: 'Robot affouragement' },
@@ -57,6 +56,22 @@ const outilOptionsLogiciels = [
   { value: 'Du cheptel', label: 'Du cheptel' },
 ];
 
+const outilOptionsByFiliere: Record<string, { value: string; label: string }[]> = {
+  carte: outilOptionsAnimal,
+  carte_vegetale: outilOptionsVegetale,
+  carte_precision: outilOptionsPrecision,
+  carte_aide_decision: outilOptionsAideDecision,
+  carte_logiciels: outilOptionsLogiciels,
+};
+
+const mapChartConfig: Record<string, { csv: string; titre: string }> = {
+  carte: { csv: '/robotique_animal.csv', titre: 'Robotique agricole' },
+  carte_vegetale: { csv: '/robotique_vegetale.csv', titre: 'Robotique filière végétale' },
+  carte_precision: { csv: '/agriculture_precision.csv', titre: 'Matériels de précision' },
+  carte_aide_decision: { csv: '/outils_aide_decision.csv', titre: "Outils d'aide à la décision" },
+  carte_logiciels: { csv: '/logiciels_specialises.csv', titre: 'Logiciels spécialisés' },
+};
+
 const filiereOptions: { value: Filiere; label: string; icon: 'accueil' | 'radar' | 'carte' }[] = [
   { value: 'accueil', label: 'Accueil', icon: 'accueil' },
   { value: 'comparaison', label: 'Comparaison des filières', icon: 'radar' },
@@ -101,8 +116,7 @@ export default function App() {
   const [selectedFilieres, setSelectedFilieres] = useState<Set<string>>(new Set(['vegetale', 'animale']));
 
   const specialisations = useMemo(() => {
-    const carteFilieres: Filiere[] = ['carte', 'carte_vegetale', 'carte_precision', 'carte_aide_decision', 'carte_logiciels'];
-    if (filiere === 'comparaison' || carteFilieres.includes(filiere)) return [];
+    if (filiere === 'comparaison' || CARTE_FILIERES.includes(filiere)) return [];
     return [...new Set(
       equipementData
         .filter(d => d.filiere === filiere)
@@ -119,16 +133,9 @@ export default function App() {
   }, [filiere]);
 
   useEffect(() => {
-    if (filiere === 'carte' && !outilOptionsAnimal.some(o => o.value === outilSelectionne)) {
-      setOutilSelectionne(outilOptionsAnimal[0].value);
-    } else if (filiere === 'carte_vegetale' && !outilOptionsVegetale.some(o => o.value === outilSelectionne)) {
-      setOutilSelectionne(outilOptionsVegetale[0].value);
-    } else if (filiere === 'carte_precision' && !outilOptionsPrecision.some(o => o.value === outilSelectionne)) {
-      setOutilSelectionne(outilOptionsPrecision[0].value);
-    } else if (filiere === 'carte_aide_decision' && !outilOptionsAideDecision.some(o => o.value === outilSelectionne)) {
-      setOutilSelectionne(outilOptionsAideDecision[0].value);
-    } else if (filiere === 'carte_logiciels' && !outilOptionsLogiciels.some(o => o.value === outilSelectionne)) {
-      setOutilSelectionne(outilOptionsLogiciels[0].value);
+    const options = outilOptionsByFiliere[filiere];
+    if (options && !options.some(o => o.value === outilSelectionne)) {
+      setOutilSelectionne(options[0].value);
     }
   }, [filiere, outilSelectionne]);
 
@@ -146,7 +153,7 @@ export default function App() {
     setSelectedFilieres(next);
   };
 
-  const isCarteVue = filiere === 'carte' || filiere === 'carte_vegetale' || filiere === 'carte_precision' || filiere === 'carte_aide_decision' || filiere === 'carte_logiciels';
+  const isCarteVue = CARTE_FILIERES.includes(filiere);
 
   const currentViewIndex = filiereOptions.findIndex(o => o.value === filiere);
   const goToPrev = () => {
@@ -165,7 +172,7 @@ export default function App() {
         { key: 'animale', label: 'Spécialisation filière animale', color: filiereColors.animale, active: selectedFilieres.has('animale') }
       ];
     }
-    const colors = d3.schemeTableau10;
+    const colors = schemeTableau10;
     return specialisations.map((spec, i) => ({
       key: spec,
       label: spec,
@@ -234,13 +241,7 @@ export default function App() {
                     <Select
                       value={outilSelectionne}
                       onChange={(v) => setOutilSelectionne(v)}
-                      options={
-                        filiere === 'carte_vegetale' ? outilOptionsVegetale
-                        : filiere === 'carte_precision' ? outilOptionsPrecision
-                        : filiere === 'carte_aide_decision' ? outilOptionsAideDecision
-                        : filiere === 'carte_logiciels' ? outilOptionsLogiciels
-                        : outilOptionsAnimal
-                      }
+                      options={outilOptionsByFiliere[filiere] ?? outilOptionsAnimal}
                     />
                   ) : (
                     <IconSelect
@@ -291,25 +292,13 @@ export default function App() {
           <div className="flex flex-col gap-4">
             {filiere === 'accueil' ? (
               <AccueilPage onViewSelect={(v) => setFiliere(v)} />
-            ) : filiere === 'carte' ? (
+            ) : isCarteVue && mapChartConfig[filiere] ? (
               <Card>
-                <MapChart outilSelectionne={outilSelectionne} csvSource="/robotique_animal.csv" titre="Robotique agricole" />
-              </Card>
-            ) : filiere === 'carte_vegetale' ? (
-              <Card>
-                <MapChart outilSelectionne={outilSelectionne} csvSource="/robotique_vegetale.csv" titre="Robotique filière végétale" />
-              </Card>
-            ) : filiere === 'carte_precision' ? (
-              <Card>
-                <MapChart outilSelectionne={outilSelectionne} csvSource="/agriculture_precision.csv" titre="Matériels de précision" />
-              </Card>
-            ) : filiere === 'carte_aide_decision' ? (
-              <Card>
-                <MapChart outilSelectionne={outilSelectionne} csvSource="/outils_aide_decision.csv" titre="Outils d'aide à la décision" />
-              </Card>
-            ) : filiere === 'carte_logiciels' ? (
-              <Card>
-                <MapChart outilSelectionne={outilSelectionne} csvSource="/logiciels_specialises.csv" titre="Logiciels spécialisés" />
+                <MapChart
+                  outilSelectionne={outilSelectionne}
+                  csvSource={mapChartConfig[filiere].csv}
+                  titre={mapChartConfig[filiere].titre}
+                />
               </Card>
             ) : (
               <>
@@ -328,7 +317,7 @@ export default function App() {
                 </div>
               ) : (
               <RadarChart
-                  filiere={filiere}
+                  filiere={filiere as 'comparaison' | 'vegetale' | 'animale'}
                   echelle={echelle}
                   selectedSpecialisations={selectedSpecs}
                   allSpecialisations={specialisations}

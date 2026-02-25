@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Radar, Map, LayoutDashboard } from 'lucide-react';
 
-export type ViewIconType = 'accueil' | 'radar' | 'carte';
+type ViewIconType = 'accueil' | 'radar' | 'carte';
 
-export interface ViewOption {
+interface ViewOption {
   value: string;
   label: string;
   icon: ViewIconType;

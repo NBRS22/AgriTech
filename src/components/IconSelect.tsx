@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-export interface IconOption {
+interface IconOption {
   value: string;
   label: string;
   icon: ReactNode;

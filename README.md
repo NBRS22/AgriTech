@@ -8,14 +8,19 @@
 
 ## 📸 Aperçu
 
-Le dashboard propose 4 vues :
+Le dashboard propose **9 vues** :
 
-| Vue | Description |
-|-----|-------------|
-| **Accueil** | Présentation du projet, objectifs et sources |
-| **Comparaison par filière** | Radar comparatif végétale vs animale |
-| **Filière Végétale / Animale** | Détail par spécialisation avec filtres |
-| **Carte — Robotique élevage** | Choroplèthe régionale des robots d'élevage |
+| Vue | Type | Description |
+|-----|------|-------------|
+| **Accueil** | — | Présentation du projet, objectifs, sources et navigation vers les vues |
+| **Comparaison des filières** | Radar | Comparatif végétale vs animale sur l'ensemble des indicateurs |
+| **Spécialisation filière végétale** | Radar | Taux d'équipement par spécialisation (grandes cultures, viticulture, etc.) |
+| **Spécialisation filière animale** | Radar | Taux d'équipement par spécialisation (bovins, ovins, porcins, etc.) |
+| **Robotique filière animale** | Carte | Choroplèthe des robots d'élevage par région |
+| **Robotique filière végétale** | Carte | Choroplèthe des robots pour la filière végétale |
+| **Matériels de précision** | Carte | Choroplèthe des équipements de précision (GPS, DPA, etc.) |
+| **Outils d'aide à la décision** | Carte | Choroplèthe des outils (irrigation, fertilisation, etc.) |
+| **Logiciels spécialisés** | Carte | Choroplèthe des logiciels (comptabilité, cultures, cheptel, etc.) |
 
 ---
 
@@ -28,7 +33,7 @@ Le dashboard propose 4 vues :
 | **Vite 7** | Bundler / dev server |
 | **Tailwind CSS 4** | Styles utilitaires |
 | **D3.js 7** | Graphiques (radar, choroplèthe) |
-| **Lucide React** | Icônes |
+| **Lucide React** | Icônes (radar, carte, échelles) |
 
 ---
 
@@ -57,20 +62,27 @@ L'application est accessible par défaut sur **http://localhost:5173**.
 ```
 agritech-dashboard/
 ├── public/
-│   ├── Robotique.csv         # Données robots d'élevage (Agreste — ESEA 2023)
-│   └── regions.geojson       # Géométries des régions françaises
+│   ├── robotique_animal.csv       # Robots d'élevage (ESEA 2023)
+│   ├── robotique_vegetale.csv     # Robots filière végétale
+│   ├── agriculture_precision.csv  # Matériels de précision
+│   ├── outils_aide_decision.csv   # Outils d'aide à la décision
+│   ├── logiciels_specialises.csv  # Logiciels spécialisés
+│   └── regions.geojson            # Géométries des régions françaises
 ├── src/
 │   ├── components/
-│   │   ├── AccueilPage.tsx   # Page d'accueil (hero, objectifs, sources)
-│   │   ├── Card.tsx          # Composant carte générique
-│   │   ├── MapChart.tsx      # Carte choroplèthe D3 (robotique par région)
-│   │   ├── RadarChart.tsx    # Graphique radar D3 (équipement numérique)
-│   │   └── Select.tsx        # Menu déroulant
+│   │   ├── AccueilPage.tsx        # Page d'accueil (hero, objectifs, vues cliquables)
+│   │   ├── Card.tsx               # Composant carte générique
+│   │   ├── IconSelect.tsx         # Menu déroulant avec icônes (échelles)
+│   │   ├── MapChart.tsx           # Carte choroplèthe D3
+│   │   ├── RadarChart.tsx         # Graphique radar D3
+│   │   ├── Select.tsx             # Menu déroulant standard
+│   │   └── ViewSelect.tsx         # Menu déroulant avec icônes (vues)
 │   ├── data/
-│   │   └── equipement.ts     # Données INSEE & types TypeScript
-│   ├── App.tsx               # Composant racine, layout & état global
-│   ├── index.css             # Styles globaux (Tailwind)
-│   └── main.tsx              # Point d'entrée
+│   │   └── equipement.ts          # Données INSEE & types
+│   ├── types.ts                   # Types partagés (Filiere, Echelle)
+│   ├── App.tsx                    # Composant racine, layout & état global
+│   ├── index.css                  # Styles globaux (Tailwind)
+│   └── main.tsx                   # Point d'entrée
 ├── index.html
 ├── vite.config.ts
 ├── tsconfig.json
@@ -88,24 +100,30 @@ Couvre les filières **végétale** et **animale** par spécialisation (taux d'�
 
 ### Agreste — ESEA 2023
 Enquête sur la structure des exploitations agricoles.  
-Détaille l'équipement en **robots d'élevage** par région et par type de matériel (nombre d'exploitations).  
+Détaille l'équipement par région et par type (robots, matériels de précision, outils d'aide à la décision, logiciels).  
 🔗 [Accéder aux données ESEA](https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/)
 
 ---
 
 ## 🗂️ Fonctionnalités détaillées
 
-### Graphique Radar interactif
-- Comparaison filière végétale vs animale
-- Détail par spécialisation avec filtrage
-- 3 échelles : linéaire, racine carrée, logarithmique
-- Tooltips interactifs, légende cliquable
+### Navigation
+- **Sidebar** : onglets Vue (sélecteur + Précédent/Suivant) et Paramètres (selon la vue)
+- **Boutons Précédent/Suivant** : navigation cyclique entre les 9 vues
+- **Page d'accueil** : cartes cliquables pour accéder directement à chaque vue
 
-### Carte choroplèthe (Robotique élevage)
+### Graphique Radar
+- Comparaison filière végétale vs animale
+- Détail par spécialisation avec filtrage (légende cliquable)
+- 3 échelles : linéaire, racine carrée, logarithmique (avec icônes)
+- Tooltips interactifs, popup donut en mode comparaison
+
+### Cartes choroplèthes (5 vues)
 - Découpage régional France métropolitaine
+- Sélecteur de type d'équipement selon la vue
 - Échelle de couleur quantile (6 niveaux verts)
 - Labels adaptatifs (couleur selon fond)
-- Tooltip avec rang, nombre d'exploitations et IC
+- Tooltip avec rang, nombre d'exploitations et intervalle de confiance
 - Panneau Top 3 régions avec médailles
 
 ---
