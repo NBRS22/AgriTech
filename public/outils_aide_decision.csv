@@ -1,0 +1,98 @@
+region,outil,esea_2023,demi_intervalle
+AUVERGNE RHONE ALPES,Suivi irrigation,1868,279
+AUVERGNE RHONE ALPES,Suivi traitements phytosanitaires,7229,620
+AUVERGNE RHONE ALPES,Suivi fertilisation,6960,609
+AUVERGNE RHONE ALPES,Cartographie de précision,828,207
+AUVERGNE RHONE ALPES,Station météo connectée,2413,408
+AUVERGNE RHONE ALPES,Pilotage du climat des serres,181,54
+
+BOURGOGNE FRANCHE COMTE,Suivi irrigation,327,115
+BOURGOGNE FRANCHE COMTE,Suivi traitements phytosanitaires,6878,419
+BOURGOGNE FRANCHE COMTE,Suivi fertilisation,7210,413
+BOURGOGNE FRANCHE COMTE,Cartographie de précision,711,153
+BOURGOGNE FRANCHE COMTE,Station météo connectée,2477,296
+BOURGOGNE FRANCHE COMTE,Pilotage du climat des serres,76,57
+
+BRETAGNE,Suivi irrigation,561,113
+BRETAGNE,Suivi traitements phytosanitaires,9112,588
+BRETAGNE,Suivi fertilisation,9565,600
+BRETAGNE,Cartographie de précision,1013,215
+BRETAGNE,Station météo connectée,1408,246
+BRETAGNE,Pilotage du climat des serres,372,68
+
+CENTRE VAL DE LOIRE,Suivi irrigation,2074,392
+CENTRE VAL DE LOIRE,Suivi traitements phytosanitaires,7102,540
+CENTRE VAL DE LOIRE,Suivi fertilisation,7834,520
+CENTRE VAL DE LOIRE,Cartographie de précision,1409,335
+CENTRE VAL DE LOIRE,Station météo connectée,3379,457
+CENTRE VAL DE LOIRE,Pilotage du climat des serres,143,73
+
+CORSE,Suivi irrigation,195,25
+CORSE,Suivi traitements phytosanitaires,202,34
+CORSE,Suivi fertilisation,168,31
+CORSE,Cartographie de précision,6,3
+CORSE,Station météo connectée,100,22
+CORSE,Pilotage du climat des serres,6,5
+
+GRAND EST,Suivi irrigation,674,173
+GRAND EST,Suivi traitements phytosanitaires,12950,1050
+GRAND EST,Suivi fertilisation,11373,1139
+GRAND EST,Cartographie de précision,1244,275
+GRAND EST,Station météo connectée,5218,620
+GRAND EST,Pilotage du climat des serres,135,63
+
+HAUTS DE FRANCE,Suivi irrigation,1274,200
+HAUTS DE FRANCE,Suivi traitements phytosanitaires,10831,543
+HAUTS DE FRANCE,Suivi fertilisation,10804,514
+HAUTS DE FRANCE,Cartographie de précision,1989,265
+HAUTS DE FRANCE,Station météo connectée,4291,413
+HAUTS DE FRANCE,Pilotage du climat des serres,118,60
+
+ILE DE FRANCE,Suivi irrigation,410,69
+ILE DE FRANCE,Suivi traitements phytosanitaires,2158,153
+ILE DE FRANCE,Suivi fertilisation,2372,154
+ILE DE FRANCE,Cartographie de précision,377,93
+ILE DE FRANCE,Station météo connectée,1124,155
+ILE DE FRANCE,Pilotage du climat des serres,55,25
+
+NORMANDIE,Suivi irrigation,358,147
+NORMANDIE,Suivi traitements phytosanitaires,6732,460
+NORMANDIE,Suivi fertilisation,6867,470
+NORMANDIE,Cartographie de précision,1327,247
+NORMANDIE,Station météo connectée,1386,279
+NORMANDIE,Pilotage du climat des serres,62,39
+
+NOUVELLE AQUITAINE,Suivi irrigation,3279,352
+NOUVELLE AQUITAINE,Suivi traitements phytosanitaires,15016,800
+NOUVELLE AQUITAINE,Suivi fertilisation,14198,799
+NOUVELLE AQUITAINE,Cartographie de précision,1324,223
+NOUVELLE AQUITAINE,Station météo connectée,6274,573
+NOUVELLE AQUITAINE,Pilotage du climat des serres,318,78
+
+OCCITANIE,Suivi irrigation,3739,520
+OCCITANIE,Suivi traitements phytosanitaires,9895,770
+OCCITANIE,Suivi fertilisation,8477,716
+OCCITANIE,Cartographie de précision,1232,347
+OCCITANIE,Station météo connectée,3540,458
+OCCITANIE,Pilotage du climat des serres,100,42
+
+PAYS DE LA LOIRE,Suivi irrigation,1303,276
+PAYS DE LA LOIRE,Suivi traitements phytosanitaires,8495,665
+PAYS DE LA LOIRE,Suivi fertilisation,9087,656
+PAYS DE LA LOIRE,Cartographie de précision,1223,275
+PAYS DE LA LOIRE,Station météo connectée,1985,305
+PAYS DE LA LOIRE,Pilotage du climat des serres,225,49
+
+PROVENCE ALPES COTE D AZUR,Suivi irrigation,999,130
+PROVENCE ALPES COTE D AZUR,Suivi traitements phytosanitaires,2073,213
+PROVENCE ALPES COTE D AZUR,Suivi fertilisation,1614,194
+PROVENCE ALPES COTE D AZUR,Cartographie de précision,127,44
+PROVENCE ALPES COTE D AZUR,Station météo connectée,1756,197
+PROVENCE ALPES COTE D AZUR,Pilotage du climat des serres,223,93
+
+Total France métropolitaine,Suivi irrigation,17061,917
+Total France métropolitaine,Suivi traitements phytosanitaires,98673,2132
+Total France métropolitaine,Suivi fertilisation,96529,2144
+Total France métropolitaine,Cartographie de précision,12810,830
+Total France métropolitaine,Station météo connectée,35351,1359
+Total France métropolitaine,Pilotage du climat des serres,2014,211

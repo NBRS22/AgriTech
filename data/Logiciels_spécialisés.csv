@@ -1,0 +1,84 @@
+region,outil,esea_2023,demi_intervalle
+AUVERGNE RHONE ALPES,De la comptabilité,9341,753
+AUVERGNE RHONE ALPES,De l'activité commerciale,5057,544
+AUVERGNE RHONE ALPES,Des cultures,6156,536
+AUVERGNE RHONE ALPES,Des prairies,4016,534
+AUVERGNE RHONE ALPES,Du cheptel,11072,734
+
+BOURGOGNE FRANCHE COMTE,De la comptabilité,7310,484
+BOURGOGNE FRANCHE COMTE,De l'activité commerciale,4679,410
+BOURGOGNE FRANCHE COMTE,Des cultures,6394,374
+BOURGOGNE FRANCHE COMTE,Des prairies,3102,303
+BOURGOGNE FRANCHE COMTE,Du cheptel,7467,405
+
+BRETAGNE,De la comptabilité,7571,577
+BRETAGNE,De l'activité commerciale,3120,397
+BRETAGNE,Des cultures,5245,505
+BRETAGNE,Des prairies,1647,352
+BRETAGNE,Du cheptel,9360,523
+
+CENTRE VAL DE LOIRE,De la comptabilité,6176,546
+CENTRE VAL DE LOIRE,De l'activité commerciale,4536,491
+CENTRE VAL DE LOIRE,Des cultures,7566,512
+CENTRE VAL DE LOIRE,Des prairies,1143,260
+CENTRE VAL DE LOIRE,Du cheptel,2598,261
+
+CORSE,De la comptabilité,543,52
+CORSE,De l'activité commerciale,473,53
+CORSE,Des cultures,166,26
+CORSE,Des prairies,46,18
+CORSE,Du cheptel,226,42
+
+GRAND EST,De la comptabilité,12876,1109
+GRAND EST,De l'activité commerciale,7819,1038
+GRAND EST,Des cultures,12834,1171
+GRAND EST,Des prairies,3037,357
+GRAND EST,Du cheptel,5871,371
+
+HAUTS DE FRANCE,De la comptabilité,6102,485
+HAUTS DE FRANCE,De l'activité commerciale,3392,380
+HAUTS DE FRANCE,Des cultures,8901,501
+HAUTS DE FRANCE,Des prairies,2383,323
+HAUTS DE FRANCE,Du cheptel,5355,335
+
+ILE DE FRANCE,De la comptabilité,1799,161
+ILE DE FRANCE,De l'activité commerciale,1197,160
+ILE DE FRANCE,Des cultures,1947,161
+ILE DE FRANCE,Des prairies,230,77
+ILE DE FRANCE,Du cheptel,102,21
+
+NORMANDIE,De la comptabilité,7055,564
+NORMANDIE,De l'activité commerciale,2787,416
+NORMANDIE,Des cultures,5416,433
+NORMANDIE,Des prairies,2467,359
+NORMANDIE,Du cheptel,6828,481
+
+NOUVELLE AQUITAINE,De la comptabilité,15355,884
+NOUVELLE AQUITAINE,De l'activité commerciale,8052,685
+NOUVELLE AQUITAINE,Des cultures,11055,711
+NOUVELLE AQUITAINE,Des prairies,3862,443
+NOUVELLE AQUITAINE,Du cheptel,10264,574
+
+OCCITANIE,De la comptabilité,12205,825
+OCCITANIE,De l'activité commerciale,6612,632
+OCCITANIE,Des cultures,8219,731
+OCCITANIE,Des prairies,1771,365
+OCCITANIE,Du cheptel,10014,666
+
+PAYS DE LA LOIRE,De la comptabilité,9984,667
+PAYS DE LA LOIRE,De l'activité commerciale,4368,467
+PAYS DE LA LOIRE,Des cultures,7227,570
+PAYS DE LA LOIRE,Des prairies,3370,471
+PAYS DE LA LOIRE,Du cheptel,9210,568
+
+PROVENCE ALPES COTE D AZUR,De la comptabilité,4244,289
+PROVENCE ALPES COTE D AZUR,De l'activité commerciale,3022,261
+PROVENCE ALPES COTE D AZUR,Des cultures,2471,252
+PROVENCE ALPES COTE D AZUR,Des prairies,348,96
+PROVENCE ALPES COTE D AZUR,Du cheptel,916,112
+
+Total France métropolitaine,De la comptabilité,100561,2288
+Total France métropolitaine,De l'activité commerciale,55114,1854
+Total France métropolitaine,Des cultures,83597,2051
+Total France métropolitaine,Des prairies,27422,1223
+Total France métropolitaine,Du cheptel,79283,1623

@@ -1,4 +1,10 @@
-export default function AccueilPage() {
+type Filiere = 'comparaison' | 'vegetale' | 'animale' | 'carte' | 'carte_vegetale' | 'carte_precision' | 'carte_aide_decision' | 'carte_logiciels';
+
+interface AccueilPageProps {
+  onViewSelect?: (filiere: Filiere) => void;
+}
+
+export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
   return (
     <div className="space-y-6">
       {/* Hero */}
@@ -88,29 +94,26 @@ export default function AccueilPage() {
         <h2 className="text-base font-bold text-slate-800 mb-5">Vues disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            {
-              title: 'Comparaison par filière',
-              desc: "Vue radar comparative entre filières végétale et animale sur l'ensemble des indicateurs numériques.",
-            },
-            {
-              title: 'Filière Végétale',
-              desc: "Détail des taux d'équipement numérique pour chaque spécialisation de la production végétale.",
-            },
-            {
-              title: 'Filière Animale',
-              desc: "Analyse des équipements numériques dans les différentes spécialisations de l'élevage.",
-            },
-            {
-              title: 'Carte — Robotique élevage',
-              desc: "Choroplèthe régionale indiquant le nombre d'exploitations équipées en robots d'élevage (ESEA 2023).",
-            },
+            { filiere: 'comparaison' as Filiere, title: 'Comparaison des filières', desc: "Vue radar comparative entre filières végétale et animale sur l'ensemble des indicateurs numériques." },
+            { filiere: 'vegetale' as Filiere, title: 'Spécialisation filière végétale', desc: "Détail des taux d'équipement numérique pour chaque spécialisation de la production végétale." },
+            { filiere: 'animale' as Filiere, title: 'Spécialisation filière animale', desc: "Analyse des équipements numériques dans les différentes spécialisations de l'élevage." },
+            { filiere: 'carte' as Filiere, title: 'Carte — Robotique filière animale', desc: "Choroplèthe régionale indiquant le nombre d'exploitations équipées en robots d'élevage (ESEA 2023)." },
+            { filiere: 'carte_vegetale' as Filiere, title: 'Carte — Robotique filière végétale', desc: "Choroplèthe régionale des exploitations équipées en robots pour la filière végétale (ESEA 2023)." },
+            { filiere: 'carte_precision' as Filiere, title: 'Carte — Matériels de précision', desc: "Choroplèthe régionale des exploitations équipées en matériels de précision (ESEA 2023)." },
+            { filiere: 'carte_aide_decision' as Filiere, title: 'Carte — Outils d\'aide à la décision', desc: "Choroplèthe régionale des exploitations équipées en outils d'aide à la décision (ESEA 2023)." },
+            { filiere: 'carte_logiciels' as Filiere, title: 'Carte — Logiciels spécialisés', desc: "Choroplèthe régionale des exploitations équipées en logiciels spécialisés (ESEA 2023)." },
           ].map((v) => (
-            <div key={v.title} className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-green-200 hover:bg-green-50 transition-all duration-200">
+            <button
+              key={v.filiere}
+              type="button"
+              onClick={() => onViewSelect?.(v.filiere)}
+              className="flex gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-green-200 hover:bg-green-50 transition-all duration-200 text-left w-full cursor-pointer"
+            >
               <div>
                 <p className="text-sm font-semibold text-slate-800 mb-1">{v.title}</p>
                 <p className="text-xs text-slate-500 leading-relaxed">{v.desc}</p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

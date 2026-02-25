@@ -1,0 +1,70 @@
+region,outil,esea_2023,demi_intervalle
+AUVERGNE RHONE ALPES,Robot de désherbage mécanique,15,11
+AUVERGNE RHONE ALPES,Robot de pulvérisation et épandage,25,8
+AUVERGNE RHONE ALPES,Robot de travail du sol,3,1
+AUVERGNE RHONE ALPES,Robot de récolte,s,
+
+BOURGOGNE FRANCHE COMTE,Robot de désherbage mécanique,21,23
+BOURGOGNE FRANCHE COMTE,Robot de pulvérisation et épandage,14,18
+BOURGOGNE FRANCHE COMTE,Robot de travail du sol,66,58
+BOURGOGNE FRANCHE COMTE,Robot de récolte,0,0
+
+BRETAGNE,Robot de désherbage mécanique,3,1
+BRETAGNE,Robot de pulvérisation et épandage,102,14
+BRETAGNE,Robot de travail du sol,s,
+BRETAGNE,Robot de récolte,s,
+
+CENTRE VAL DE LOIRE,Robot de désherbage mécanique,14,7
+CENTRE VAL DE LOIRE,Robot de pulvérisation et épandage,24,24
+CENTRE VAL DE LOIRE,Robot de travail du sol,11,2
+CENTRE VAL DE LOIRE,Robot de récolte,s,
+
+CORSE,Robot de désherbage mécanique,3,3
+CORSE,Robot de pulvérisation et épandage,0,0
+CORSE,Robot de travail du sol,0,0
+CORSE,Robot de récolte,0,0
+
+GRAND EST,Robot de désherbage mécanique,6,2
+GRAND EST,Robot de pulvérisation et épandage,11,14
+GRAND EST,Robot de travail du sol,75,107
+GRAND EST,Robot de récolte,0,0
+
+HAUTS DE FRANCE,Robot de désherbage mécanique,84,84
+HAUTS DE FRANCE,Robot de pulvérisation et épandage,11,11
+HAUTS DE FRANCE,Robot de travail du sol,s,
+HAUTS DE FRANCE,Robot de récolte,0,0
+
+ILE DE FRANCE,Robot de désherbage mécanique,5,2
+ILE DE FRANCE,Robot de pulvérisation et épandage,s,
+ILE DE FRANCE,Robot de travail du sol,s,
+ILE DE FRANCE,Robot de récolte,s,
+
+NORMANDIE,Robot de désherbage mécanique,38,54
+NORMANDIE,Robot de pulvérisation et épandage,s,
+NORMANDIE,Robot de travail du sol,0,0
+NORMANDIE,Robot de récolte,0,0
+
+NOUVELLE AQUITAINE,Robot de désherbage mécanique,41,35
+NOUVELLE AQUITAINE,Robot de pulvérisation et épandage,20,5
+NOUVELLE AQUITAINE,Robot de travail du sol,44,48
+NOUVELLE AQUITAINE,Robot de récolte,s,
+
+OCCITANIE,Robot de désherbage mécanique,45,40
+OCCITANIE,Robot de pulvérisation et épandage,14,2
+OCCITANIE,Robot de travail du sol,12,4
+OCCITANIE,Robot de récolte,5,3
+
+PAYS DE LA LOIRE,Robot de désherbage mécanique,38,28
+PAYS DE LA LOIRE,Robot de pulvérisation et épandage,41,5
+PAYS DE LA LOIRE,Robot de travail du sol,s,
+PAYS DE LA LOIRE,Robot de récolte,s,
+
+PROVENCE ALPES COTE D AZUR,Robot de désherbage mécanique,6,3
+PROVENCE ALPES COTE D AZUR,Robot de pulvérisation et épandage,15,3
+PROVENCE ALPES COTE D AZUR,Robot de travail du sol,3,1
+PROVENCE ALPES COTE D AZUR,Robot de récolte,s,
+
+Total France métropolitaine,Robot de désherbage mécanique,319,128
+Total France métropolitaine,Robot de pulvérisation et épandage,280,43
+Total France métropolitaine,Robot de travail du sol,220,159
+Total France métropolitaine,Robot de récolte,15,4

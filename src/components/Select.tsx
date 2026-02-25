@@ -1,7 +1,7 @@
-﻿import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 interface SelectProps {
-  label: string;
+  label?: string;
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
@@ -10,14 +10,16 @@ interface SelectProps {
 export default function Select({ label, value, onChange, options }: SelectProps) {
   return (
     <div className="space-y-2">
-      <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider">
-        {label}
-      </label>
+      {label && (
+        <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider">
+          {label}
+        </label>
+      )}
       <div className="relative">
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-slate-800 font-medium
+          className="w-full pl-4 pr-10 py-3 bg-white border-2 border-slate-200 rounded-xl text-slate-800 font-medium
                      appearance-none cursor-pointer transition-all duration-200
                      hover:border-green-400 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"
         >
