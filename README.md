@@ -126,8 +126,3 @@ Détaille l'équipement par région et par type (robots, matériels de précisio
 - Tooltip avec rang, nombre d'exploitations et intervalle de confiance
 - Panneau Top 3 régions avec médailles
 
----
-
-## 📄 Licence
-
-MIT
