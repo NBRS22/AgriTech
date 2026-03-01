@@ -11,52 +11,54 @@ import { schemeTableau10 } from 'd3-scale-chromatic';
 import type { Filiere, Echelle } from './types';
 import { CARTE_FILIERES } from './types';
 import { ChevronLeft, ChevronRight, Minus, SquareRadical, Search, Info } from 'lucide-react';
+import LanguageSwitch from './components/LanguageSwitch';
+import { useLanguage } from './context/LanguageContext';
 
 const outilOptionsAnimal = [
-  { value: 'Robot affouragement', label: "Robot d'affouragement" },
-  { value: 'Distributeur automatique', label: 'Distributeur automatique' },
-  { value: 'Systeme nettoyage automatise', label: 'Système de nettoyage automatisé' },
-  { value: 'Paillage automatise', label: 'Paillage automatisé' },
-  { value: 'Robot de traite', label: 'Robot de traite' },
+  { value: 'Robot affouragement', labelKey: 'equip.robot_affouragement' },
+  { value: 'Distributeur automatique', labelKey: 'equip.distributeur' },
+  { value: 'Systeme nettoyage automatise', labelKey: 'equip.nettoyage' },
+  { value: 'Paillage automatise', labelKey: 'equip.paillage' },
+  { value: 'Robot de traite', labelKey: 'equip.robot_traite' },
 ];
 
 const outilOptionsVegetale = [
-  { value: 'Robot de désherbage mécanique', label: 'Robot de désherbage mécanique' },
-  { value: 'Robot de pulvérisation et épandage', label: 'Robot de pulvérisation et épandage' },
-  { value: 'Robot de travail du sol', label: 'Robot de travail du sol' },
-  { value: 'Robot de récolte', label: 'Robot de récolte' },
+  { value: 'Robot de désherbage mécanique', labelKey: 'equip.desherbage' },
+  { value: 'Robot de pulvérisation et épandage', labelKey: 'equip.pulverisation' },
+  { value: 'Robot de travail du sol', labelKey: 'equip.travail_sol' },
+  { value: 'Robot de récolte', labelKey: 'equip.recolte' },
 ];
 
 const outilOptionsPrecision = [
-  { value: 'Système de pulvérisation en bandes', label: 'Système de pulvérisation en bandes' },
-  { value: "dont équipé d'un dispositif de coupure de tronçons piloté par GPS", label: "Coupure tronçons piloté GPS" },
-  { value: "dont équipé d'un capteur d'avancement de type DPA", label: "Capteur DPA (pulvérisation)" },
-  { value: "Épandeur d'engrais minéraux localisé (raie de semins)", label: "Épandeur engrais localisé" },
-  { value: "dont équipé d'un capteur d'avancement de type DPA (épandeur engrais)", label: "Capteur DPA (épandeur engrais)" },
-  { value: "Épandeur de lisier équipé d'un capteur d'avancement de type DPA", label: "Épandeur lisier capteur DPA" },
-  { value: 'Equipements disposant de guidage de haute précision GPS', label: 'Guidage haute précision GPS' },
-  { value: "Equipements pilotés à l'aide d'une caméra", label: "Équipements pilotés par caméra" },
-  { value: 'Équipements pilotés par un logiciel de cartographie', label: 'Logiciel de cartographie' },
+  { value: 'Système de pulvérisation en bandes', labelKey: 'equip.pulv_bandes' },
+  { value: "dont équipé d'un dispositif de coupure de tronçons piloté par GPS", labelKey: 'equip.coupure_gps' },
+  { value: "dont équipé d'un capteur d'avancement de type DPA", labelKey: 'equip.capteur_dpa' },
+  { value: "Épandeur d'engrais minéraux localisé (raie de semins)", labelKey: 'equip.epandeur_localise' },
+  { value: "dont équipé d'un capteur d'avancement de type DPA (épandeur engrais)", labelKey: 'equip.capteur_dpa_engrais' },
+  { value: "Épandeur de lisier équipé d'un capteur d'avancement de type DPA", labelKey: 'equip.epandeur_lisier' },
+  { value: 'Equipements disposant de guidage de haute précision GPS', labelKey: 'equip.guidage_gps' },
+  { value: "Equipements pilotés à l'aide d'une caméra", labelKey: 'equip.camera' },
+  { value: 'Équipements pilotés par un logiciel de cartographie', labelKey: 'equip.cartographie' },
 ];
 
 const outilOptionsAideDecision = [
-  { value: 'Suivi irrigation', label: 'Suivi de l\'irrigation' },
-  { value: 'Suivi traitements phytosanitaires', label: 'Suivi de traitements phytosanitaires' },
-  { value: 'Suivi fertilisation', label: 'Suivi de lafertilisation' },
-  { value: 'Cartographie de précision', label: 'Cartographie de précision' },
-  { value: 'Station météo connectée', label: 'Station météo connectée' },
-  { value: 'Pilotage du climat des serres', label: 'Pilotage du climat des serres' },
+  { value: 'Suivi irrigation', labelKey: 'equip.suivi_irrigation' },
+  { value: 'Suivi traitements phytosanitaires', labelKey: 'equip.suivi_phytosanitaire' },
+  { value: 'Suivi fertilisation', labelKey: 'equip.suivi_fertilisation' },
+  { value: 'Cartographie de précision', labelKey: 'equip.cartographie_precision' },
+  { value: 'Station météo connectée', labelKey: 'equip.station_meteo' },
+  { value: 'Pilotage du climat des serres', labelKey: 'equip.climat_serres' },
 ];
 
 const outilOptionsLogiciels = [
-  { value: 'De la comptabilité', label: 'Comptabilité' },
-  { value: "De l'activité commerciale", label: "Activité commerciale" },
-  { value: 'Des cultures', label: 'Cultures' },
-  { value: 'Des prairies', label: 'Prairies' },
-  { value: 'Du cheptel', label: 'Cheptel' },
+  { value: 'De la comptabilité', labelKey: 'equip.comptabilite' },
+  { value: "De l'activité commerciale", labelKey: 'equip.commerce' },
+  { value: 'Des cultures', labelKey: 'equip.cultures' },
+  { value: 'Des prairies', labelKey: 'equip.prairies' },
+  { value: 'Du cheptel', labelKey: 'equip.cheptel' },
 ];
 
-const outilOptionsByFiliere: Record<string, { value: string; label: string }[]> = {
+const outilOptionsByFiliere: Record<string, { value: string; labelKey: string }[]> = {
   carte: outilOptionsAnimal,
   carte_vegetale: outilOptionsVegetale,
   carte_precision: outilOptionsPrecision,
@@ -64,61 +66,73 @@ const outilOptionsByFiliere: Record<string, { value: string; label: string }[]> 
   carte_logiciels: outilOptionsLogiciels,
 };
 
-const mapChartConfig: Record<string, { csv: string; titre: string }> = {
-  carte: { csv: '/robotique_animal.csv', titre: 'Robots — Filière animale' },
-  carte_vegetale: { csv: '/robotique_vegetale.csv', titre: 'Robots — Filière végétale' },
-  carte_precision: { csv: '/agriculture_precision.csv', titre: 'Matériels de précision' },
-  carte_aide_decision: { csv: '/outils_aide_decision.csv', titre: "Outils d'aide à la décision" },
-  carte_logiciels: { csv: '/logiciels_specialises.csv', titre: 'Logiciels spécialisés' },
+const mapChartConfig: Record<string, { csv: string; titreKey: string }> = {
+  carte: { csv: '/robotique_animal.csv', titreKey: 'map.robots_animale' },
+  carte_vegetale: { csv: '/robotique_vegetale.csv', titreKey: 'map.robots_vegetale' },
+  carte_precision: { csv: '/agriculture_precision.csv', titreKey: 'map.precision' },
+  carte_aide_decision: { csv: '/outils_aide_decision.csv', titreKey: 'map.aide_decision' },
+  carte_logiciels: { csv: '/logiciels_specialises.csv', titreKey: 'map.logiciels' },
 };
 
-const filiereOptions: { value: Filiere; label: string; icon: 'accueil' | 'radar' | 'carte' }[] = [
-  { value: 'accueil', label: 'Accueil', icon: 'accueil' },
-  { value: 'comparaison', label: 'Comparaison des filières', icon: 'radar' },
-  { value: 'vegetale', label: 'Filière végétale', icon: 'radar' },
-  { value: 'animale', label: 'Filière animale', icon: 'radar' },
-  { value: 'carte', label: 'Robots', icon: 'carte' },
-  { value: 'carte_precision', label: 'Matériels de précision', icon: 'carte' },
-  { value: 'carte_aide_decision', label: 'Outils d\'aide à la décision', icon: 'carte' },
-  { value: 'carte_logiciels', label: 'Logiciels spécialisés', icon: 'carte' },
+const filiereOptionKeys: { value: Filiere; labelKey: string; icon: 'accueil' | 'radar' | 'carte' }[] = [
+  { value: 'accueil', labelKey: 'view.home', icon: 'accueil' },
+  { value: 'comparaison', labelKey: 'view.comparison', icon: 'radar' },
+  { value: 'vegetale', labelKey: 'view.vegetale', icon: 'radar' },
+  { value: 'animale', labelKey: 'view.animale', icon: 'radar' },
+  { value: 'carte', labelKey: 'view.robots', icon: 'carte' },
+  { value: 'carte_precision', labelKey: 'view.precision', icon: 'carte' },
+  { value: 'carte_aide_decision', labelKey: 'view.aide_decision', icon: 'carte' },
+  { value: 'carte_logiciels', labelKey: 'view.logiciels', icon: 'carte' },
 ];
 
-const echelleOptions = [
-  { value: 'lineaire', label: 'Linéaire', icon: <Minus /> },
-  { value: 'racine_carree', label: 'Racine carrée', icon: <SquareRadical /> },
-  { value: 'logarithmique', label: 'Logarithmique', icon: <Search /> },
+const echelleOptionKeys = [
+  { value: 'lineaire', labelKey: 'scale.linear', icon: <Minus /> },
+  { value: 'racine_carree', labelKey: 'scale.sqrt', icon: <SquareRadical /> },
+  { value: 'logarithmique', labelKey: 'scale.log', icon: <Search /> },
 ];
 
-const titles: Record<string, string> = {
-  comparaison: 'Comparaison des filières agricoles',
-  vegetale: 'Filière végétale - Taux d\'équipement par spécialisation',
-  animale: 'Filière animale - Taux d\'équipement par spécialisation',
+const titleKeys: Record<string, string> = {
+  comparaison: 'title.comparison',
+  vegetale: 'title.vegetale',
+  animale: 'title.animale',
 };
 
-const subtitles: Record<string, string> = {
-  comparaison: "Part des exploitations équipées pour chaque type d'équipement",
-  vegetale: "Part des exploitations équipées pour chaque type d'équipement par spécialisation",
-  animale: "Part des exploitations équipées pour chaque type d'équipement par spécialisation",
+const subtitleKeys: Record<string, string> = {
+  comparaison: 'subtitle.comparison',
+  vegetale: 'subtitle.vegetale',
+  animale: 'subtitle.animale',
 };
 
-const echelleNotes: Record<Echelle, string> = {
+const echelleNoteKeys: Record<Echelle, string> = {
   lineaire: '',
-  racine_carree: '(échelle racine carrée - zoom sur petites valeurs)',
-  logarithmique: '(échelle logarithmique - zoom maximal sur petites valeurs)'
+  racine_carree: 'scale.note_sqrt',
+  logarithmique: 'scale.note_log',
 };
 
-const robotiqueFiliereOptions = [
-  { value: 'animale', label: 'Filière animale' },
-  { value: 'vegetale', label: 'Filière végétale' },
+const robotiqueFiliereOptionKeys = [
+  { value: 'animale', labelKey: 'view.animale' },
+  { value: 'vegetale', labelKey: 'view.vegetale' },
 ];
 
 export default function App() {
+  const { t } = useLanguage();
   const [outilSelectionne, setOutilSelectionne] = useState('Distributeur automatique');
   const [filiere, setFiliere] = useState<Filiere>('accueil');
   const [robotiqueFiliere, setRobotiqueFiliere] = useState<'animale' | 'vegetale'>('animale');
   const [echelle, setEchelle] = useState<Echelle>('lineaire');
   const [selectedSpecs, setSelectedSpecs] = useState<Set<string>>(new Set());
   const [selectedFilieres, setSelectedFilieres] = useState<Set<string>>(new Set(['vegetale', 'animale']));
+
+  const filiereOptions = useMemo(() => filiereOptionKeys.map(o => ({ ...o, label: t(o.labelKey) })), [t]);
+  const echelleOptions = useMemo(() => echelleOptionKeys.map(o => ({ ...o, label: t(o.labelKey) })), [t]);
+  const robotiqueFiliereOptions = useMemo(() => robotiqueFiliereOptionKeys.map(o => ({ ...o, label: t(o.labelKey) })), [t]);
+  const outilOptionsTranslated = useMemo(() => {
+    const out: Record<string, { value: string; label: string }[]> = {};
+    for (const [k, opts] of Object.entries(outilOptionsByFiliere)) {
+      out[k] = opts.map(o => ({ value: o.value, label: t(o.labelKey) }));
+    }
+    return out;
+  }, [t]);
 
   const effectiveCarteKey = filiere === 'carte' ? (robotiqueFiliere === 'animale' ? 'carte' : 'carte_vegetale') : filiere;
   const specialisations = useMemo(() => {
@@ -175,8 +189,8 @@ export default function App() {
   const getLegendItems = () => {
     if (filiere === 'comparaison') {
       return [
-        { key: 'vegetale', label: 'Filière végétale', color: filiereColors.vegetale, active: selectedFilieres.has('vegetale') },
-        { key: 'animale', label: 'Filière animale', color: filiereColors.animale, active: selectedFilieres.has('animale') }
+        { key: 'vegetale', label: t('view.vegetale'), color: filiereColors.vegetale, active: selectedFilieres.has('vegetale') },
+        { key: 'animale', label: t('view.animale'), color: filiereColors.animale, active: selectedFilieres.has('animale') }
       ];
     }
     const colors = schemeTableau10;
@@ -205,13 +219,13 @@ export default function App() {
                 </span>
                 <div className="w-8 h-px bg-slate-200 rounded-full" />
                 <div className="flex flex-col items-center gap-0.5">
-                  <span className="text-[11px] font-medium text-slate-500">Réalisé par <strong>Nour EL Bachari</strong> &amp; <strong>Asmae HMIDANI</strong></span>
+                  <span className="text-[11px] font-medium text-slate-500">{t('nav.by')} <strong>Nour EL Bachari</strong> &amp; <strong>Asmae HMIDANI</strong></span>
                 </div>
               </div>
             </div>
 
             {/* Onglet Vue */}
-            <Card title="Vue">
+            <Card title={t('nav.view')} actions={<LanguageSwitch />}>
               <div className="space-y-4">
                 <ViewSelect
                   value={filiere}
@@ -224,7 +238,7 @@ export default function App() {
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-green-50 hover:border-green-200 hover:text-green-700 transition-all duration-200"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
-                    Précédent
+                    {t('nav.previous')}
                   </button>
                   <span className="text-xs text-slate-500">
                     {currentViewIndex + 1} / {filiereOptions.length}
@@ -233,7 +247,7 @@ export default function App() {
                     onClick={goToNext}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-green-50 hover:border-green-200 hover:text-green-700 transition-all duration-200"
                   >
-                    Suivant
+                    {t('nav.next')}
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -242,29 +256,29 @@ export default function App() {
 
             {/* Onglet Paramètres — masqué pour la vue Accueil */}
             {filiere !== 'accueil' && (
-              <Card title={isCarteVue ? 'Paramètres' : "Type d'échelle"}>
+              <Card title={isCarteVue ? t('nav.settings') : t('nav.scale')}>
                 <div className="space-y-4">
                   {filiere === 'carte' ? (
                     <>
                       <Select
-                        label="Filière"
+                        label={t('param.filiere')}
                         value={robotiqueFiliere}
                         onChange={(v) => setRobotiqueFiliere(v as 'animale' | 'vegetale')}
                         options={robotiqueFiliereOptions}
                       />
                       <Select
-                        label="Catégorie d'équipement"
+                        label={t('param.equipment')}
                         value={outilSelectionne}
                         onChange={(v) => setOutilSelectionne(v)}
-                        options={outilOptionsByFiliere[effectiveCarteKey] ?? outilOptionsAnimal}
+                        options={outilOptionsTranslated[effectiveCarteKey] ?? outilOptionsTranslated.carte}
                       />
                     </>
                   ) : isCarteVue ? (
                     <Select
-                      label="Catégorie d'équipement"
+                      label={t('param.equipment')}
                       value={outilSelectionne}
                       onChange={(v) => setOutilSelectionne(v)}
-                      options={outilOptionsByFiliere[filiere] ?? outilOptionsAnimal}
+                      options={outilOptionsTranslated[filiere] ?? outilOptionsTranslated.carte}
                     />
                   ) : (
                     <IconSelect
@@ -278,13 +292,13 @@ export default function App() {
             )}
 
             {filiere !== 'accueil' && (
-            <Card title="Données">
+            <Card title={t('nav.data')}>
               <div className="space-y-4">
                 {isCarteVue ? (
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Agreste ESEA — 2023</p>
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{t('data.agreste')}</p>
                     <p className="text-sm text-slate-700 leading-relaxed">
-                      Enquête sur la répartition de l'usage des technologies numériques dans les exploitations agricoles par région.
+                      {t('data.agresteDesc')}
                     </p>
                     <a
                       href="https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/"
@@ -292,14 +306,14 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="inline-block mt-2 text-xs font-medium text-green-600 hover:text-green-800 underline underline-offset-2 transition-colors"
                     >
-                      Accéder aux données ESEA →
+                      {t('data.accessEsea')}
                     </a>
                   </div>
                 ) : (
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">INSEE — 2023</p>
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{t('data.insee')}</p>
                     <p className="text-sm text-slate-700 leading-relaxed">
-                      Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles par filière et par spécialisation.
+                      {t('data.inseeDesc')}
                     </p>
                     <a
                       href="https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883"
@@ -307,7 +321,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="inline-block mt-2 text-xs font-medium text-green-600 hover:text-green-800 underline underline-offset-2 transition-colors"
                     >
-                      Accéder aux données INSEE →
+                      {t('data.accessInsee')}
                     </a>
                   </div>
                 )}
@@ -326,16 +340,17 @@ export default function App() {
                   <div className="absolute top-0 right-0 z-10">
                     <span
                       className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
-                      title="Explication de la carte"
+                      title={t('map.chartInfo')}
                     >
                       <Info className="w-4 h-4" />
                     </span>
                   </div>
                   <MapChart
                     outilSelectionne={outilSelectionne}
-                    outilLabel={outilOptionsByFiliere[effectiveCarteKey]?.find(o => o.value === outilSelectionne)?.label}
+                    outilLabel={outilOptionsTranslated[effectiveCarteKey]?.find(o => o.value === outilSelectionne)?.label}
                     csvSource={mapChartConfig[effectiveCarteKey].csv}
-                    titre={mapChartConfig[effectiveCarteKey].titre}
+                    titre={t(mapChartConfig[effectiveCarteKey].titreKey)}
+                    farmsByRegionLabel={t('map.farmsByRegion')}
                   />
                 </div>
               </Card>
@@ -346,22 +361,22 @@ export default function App() {
                 <div className="absolute top-0 right-0 z-10">
                   <span
                     className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
-                    title="Explication du graphique"
+                    title={t('map.radarInfo')}
                   >
                     <Info className="w-4 h-4" />
                   </span>
                 </div>
                 <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-slate-800">{titles[filiere]}</h2>
-                  <p className="text-slate-500 mt-1">{subtitles[filiere]}</p>
-                  {echelleNotes[echelle] && (
-                    <p className="text-sm text-slate-400 italic mt-1">{echelleNotes[echelle]}</p>
+                  <h2 className="text-2xl font-bold text-slate-800">{t(titleKeys[filiere])}</h2>
+                  <p className="text-slate-500 mt-1">{t(subtitleKeys[filiere])}</p>
+                  {echelleNoteKeys[echelle] && (
+                    <p className="text-sm text-slate-400 italic mt-1">{t(echelleNoteKeys[echelle])}</p>
                   )}
                 </div>
 
                 {(selectedSpecs.size === 0 && filiere !== 'comparaison') || (selectedFilieres.size === 0 && filiere === 'comparaison') ? (
                   <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-                    <p>Sélectionnez au moins un élément dans la légende pour afficher le graphique.</p>
+                    <p>{t('nav.selectOne')}</p>
                   </div>
                 ) : (
                 <RadarChart
@@ -377,7 +392,7 @@ export default function App() {
 
             {(filiere === 'comparaison' || specialisations.length > 0) && (
               <Card
-                title="Légende et filtre"
+                title={t('nav.legend')}
                 actions={
                   <>
                     <button
@@ -386,14 +401,14 @@ export default function App() {
                         else setSelectedSpecs(new Set(specialisations));
                       }}
                       className="px-3 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-green-500 hover:text-white hover:border-green-500 transition-all duration-200"
-                    >✓ Tout</button>
+                    >{t('nav.all')}</button>
                     <button
                       onClick={() => {
                         if (filiere === 'comparaison') setSelectedFilieres(new Set());
                         else setSelectedSpecs(new Set());
                       }}
                       className="px-3 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200"
-                    >✗ Aucun</button>
+                    >{t('nav.none')}</button>
                   </>
                 }
               >

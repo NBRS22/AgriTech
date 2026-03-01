@@ -24,6 +24,7 @@ interface MapChartProps {
   outilLabel?: string;
   csvSource?: string;
   titre?: string;
+  farmsByRegionLabel?: string;
 }
 
 const ABREV: Record<string, string> = {
@@ -90,7 +91,7 @@ const REGION_DISPLAY_NAMES: Record<string, string> = {
   'provence alpes cote d azur': 'Provence-Alpes-Côte d\'Azur',
 };
 
-export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/robotique_animal.csv', titre = 'Robots — Filière animale' }: MapChartProps) {
+export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/robotique_animal.csv', titre = 'Robots — Filière animale', farmsByRegionLabel = "Nombre d'exploitations équipées par région" }: MapChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [robotData, setRobotData] = useState<RobotiqueRow[]>([]);
   const [geoData, setGeoData] = useState<GeoData | null>(null);
@@ -554,7 +555,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
           {titre} — {outilLabel ?? outilSelectionne}
         </h3>
         <p className="text-xs text-slate-400 mt-0.5">
-          Nombre d'exploitations équipées par région
+          {farmsByRegionLabel}
         </p>
       </div>
       <div className="w-full overflow-x-auto">

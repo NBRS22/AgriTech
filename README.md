@@ -1,88 +1,88 @@
 # 🌿 AgriTech Dashboard
 
-> Tableau de bord interactif de visualisation des données d'équipement numérique et robotique dans les exploitations agricoles françaises (2023).
+> Interactive dashboard for visualizing digital and robotic equipment data in French agricultural holdings (2023).
 
-**Réalisé par** : Nour EL Bachari & Asmae HMIDANI
+**By** : Nour EL Bachari & Asmae HMIDANI
 
 ---
 
-## 📸 Aperçu
+## 📸 Overview
 
-Le dashboard propose **9 vues** :
+The dashboard offers **9 views**:
 
-| Vue | Type | Description |
-|-----|------|-------------|
-| **Accueil** | — | Présentation du projet, objectifs, sources et navigation vers les vues |
-| **Comparaison des filières** | Radar | Comparatif végétale vs animale sur l'ensemble des indicateurs |
-| **Spécialisation filière végétale** | Radar | Taux d'équipement par spécialisation (grandes cultures, viticulture, etc.) |
-| **Spécialisation filière animale** | Radar | Taux d'équipement par spécialisation (bovins, ovins, porcins, etc.) |
-| **Robotique filière animale** | Carte | Choroplèthe des robots d'élevage par région |
-| **Robotique filière végétale** | Carte | Choroplèthe des robots pour la filière végétale |
-| **Matériels de précision** | Carte | Choroplèthe des équipements de précision (GPS, DPA, etc.) |
-| **Outils d'aide à la décision** | Carte | Choroplèthe des outils (irrigation, fertilisation, etc.) |
-| **Logiciels spécialisés** | Carte | Choroplèthe des logiciels (comptabilité, cultures, cheptel, etc.) |
+| View | Type | Description |
+|------|------|-------------|
+| **Home** | — | Project presentation, objectives, sources and navigation to views |
+| **Sector comparison** | Radar | Crop vs livestock comparison across all indicators |
+| **Crop sector specialization** | Radar | Equipment rates by specialization (field crops, viticulture, etc.) |
+| **Livestock sector specialization** | Radar | Equipment rates by specialization (cattle, sheep, pigs, etc.) |
+| **Livestock robotics** | Map | Choropleth of livestock robots by region |
+| **Crop robotics** | Map | Choropleth of crop sector robots |
+| **Precision equipment** | Map | Choropleth of precision equipment (GPS, DPA, etc.) |
+| **Decision support tools** | Map | Choropleth of tools (irrigation, fertilization, etc.) |
+| **Specialized software** | Map | Choropleth of software (accounting, crops, livestock, etc.) |
 
 ---
 
 ## 🛠️ Technologies
 
-| Technologie | Rôle |
-|-------------|------|
-| **React 19** | Bibliothèque UI |
-| **TypeScript** | Typage statique |
+| Technology | Role |
+|------------|------|
+| **React 19** | UI library |
+| **TypeScript** | Static typing |
 | **Vite 7** | Bundler / dev server |
-| **Tailwind CSS 4** | Styles utilitaires |
-| **D3.js 7** | Graphiques (radar, choroplèthe) |
-| **Lucide React** | Icônes (radar, carte, échelles) |
+| **Tailwind CSS 4** | Utility styles |
+| **D3.js 7** | Charts (radar, choropleth) |
+| **Lucide React** | Icons (radar, map, scales) |
 
 ---
 
-## 🚀 Installation & lancement
+## 🚀 Installation & run
 
 ```bash
-# 1. Installer les dépendances
+# 1. Install dependencies
 npm install
 
-# 2. Lancer en mode développement
+# 2. Run in development mode
 npm run dev
 
-# 3. Build pour production
+# 3. Build for production
 npm run build
 
-# 4. Prévisualiser le build
+# 4. Preview the build
 npm run preview
 ```
 
-L'application est accessible par défaut sur **http://localhost:5173**.
+The app is available by default at **http://localhost:5173**.
 
 ---
 
-## 📁 Structure du projet
+## 📁 Project structure
 
 ```
 agritech-dashboard/
 ├── public/
-│   ├── robotique_animal.csv       # Robots d'élevage (ESEA 2023)
-│   ├── robotique_vegetale.csv     # Robots filière végétale
-│   ├── agriculture_precision.csv  # Matériels de précision
-│   ├── outils_aide_decision.csv   # Outils d'aide à la décision
-│   ├── logiciels_specialises.csv  # Logiciels spécialisés
-│   └── regions.geojson            # Géométries des régions françaises
+│   ├── robotique_animal.csv       # Livestock robots (ESEA 2023)
+│   ├── robotique_vegetale.csv     # Crop sector robots
+│   ├── agriculture_precision.csv  # Precision equipment
+│   ├── outils_aide_decision.csv   # Decision support tools
+│   ├── logiciels_specialises.csv  # Specialized software
+│   └── regions.geojson            # French region geometries
 ├── src/
 │   ├── components/
-│   │   ├── AccueilPage.tsx        # Page d'accueil (hero, objectifs, vues cliquables)
-│   │   ├── Card.tsx               # Composant carte générique
-│   │   ├── IconSelect.tsx         # Menu déroulant avec icônes (échelles)
-│   │   ├── MapChart.tsx           # Carte choroplèthe D3
-│   │   ├── RadarChart.tsx         # Graphique radar D3
-│   │   ├── Select.tsx             # Menu déroulant standard
-│   │   └── ViewSelect.tsx         # Menu déroulant avec icônes (vues)
+│   │   ├── AccueilPage.tsx        # Home page (hero, objectives, clickable views)
+│   │   ├── Card.tsx               # Generic card component
+│   │   ├── IconSelect.tsx         # Dropdown with icons (scales)
+│   │   ├── MapChart.tsx           # D3 choropleth map
+│   │   ├── RadarChart.tsx         # D3 radar chart
+│   │   ├── Select.tsx             # Standard dropdown
+│   │   └── ViewSelect.tsx         # Dropdown with icons (views)
 │   ├── data/
-│   │   └── equipement.ts          # Données INSEE & types
-│   ├── types.ts                   # Types partagés (Filiere, Echelle)
-│   ├── App.tsx                    # Composant racine, layout & état global
-│   ├── index.css                  # Styles globaux (Tailwind)
-│   └── main.tsx                   # Point d'entrée
+│   │   └── equipement.ts          # INSEE data & types
+│   ├── types.ts                   # Shared types (Filiere, Echelle)
+│   ├── App.tsx                    # Root component, layout & global state
+│   ├── index.css                  # Global styles (Tailwind)
+│   └── main.tsx                   # Entry point
 ├── index.html
 ├── vite.config.ts
 ├── tsconfig.json
@@ -91,38 +91,37 @@ agritech-dashboard/
 
 ---
 
-## 📊 Sources de données
+## 📊 Data sources
 
 ### INSEE — 2023
-Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles.  
-Couvre les filières **végétale** et **animale** par spécialisation (taux d'équipement en %).  
-🔗 [Accéder aux données INSEE](https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883)
+Survey on the use of digital technologies in agricultural holdings.  
+Covers **crop** and **livestock** sectors by specialization (equipment rates in %).  
+🔗 [Access INSEE data](https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883)
 
 ### Agreste — ESEA 2023
-Enquête sur la structure des exploitations agricoles.  
-Détaille l'équipement par région et par type (robots, matériels de précision, outils d'aide à la décision, logiciels).  
-🔗 [Accéder aux données ESEA](https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/)
+Survey on the structure of agricultural holdings.  
+Details equipment by region and type (robots, precision equipment, decision support tools, software).  
+🔗 [Access ESEA data](https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/)
 
 ---
 
-## 🗂️ Fonctionnalités détaillées
+## 🗂️ Detailed features
 
 ### Navigation
-- **Sidebar** : onglets Vue (sélecteur + Précédent/Suivant) et Paramètres (selon la vue)
-- **Boutons Précédent/Suivant** : navigation cyclique entre les 9 vues
-- **Page d'accueil** : cartes cliquables pour accéder directement à chaque vue
+- **Sidebar**: View tabs (selector + Previous/Next) and Settings (depending on view)
+- **Previous/Next buttons**: Cyclic navigation between the 9 views
+- **Home page**: Clickable cards to access each view directly
 
-### Graphique Radar
-- Comparaison filière végétale vs animale
-- Détail par spécialisation avec filtrage (légende cliquable)
-- 3 échelles : linéaire, racine carrée, logarithmique (avec icônes)
-- Tooltips interactifs, popup donut en mode comparaison
+### Radar chart
+- Crop vs livestock sector comparison
+- Detail by specialization with filtering (clickable legend)
+- 3 scales: linear, square root, logarithmic (with icons)
+- Interactive tooltips, donut popup in comparison mode
 
-### Cartes choroplèthes (5 vues)
-- Découpage régional France métropolitaine
-- Sélecteur de type d'équipement selon la vue
-- Échelle de couleur quantile (6 niveaux verts)
-- Labels adaptatifs (couleur selon fond)
-- Tooltip avec rang, nombre d'exploitations et intervalle de confiance
-- Panneau Top 3 régions avec médailles
-
+### Choropleth maps (5 views)
+- Regional breakdown of mainland France
+- Equipment type selector depending on view
+- Quantile color scale (6 green levels)
+- Adaptive labels (color based on background)
+- Tooltip with rank, number of holdings and confidence interval
+- Top 3 regions panel with medals
