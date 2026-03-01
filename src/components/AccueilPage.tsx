@@ -21,12 +21,12 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
             Tableau de bord analytique
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight leading-tight mb-3">
-            AgriTech — Équipement numérique<br />
-            <span className="text-green-300">des exploitations agricoles</span>
+            AgriTech — La transformation numérique du secteur agricole français
           </h1>
           <p className="text-green-100 text-base max-w-2xl leading-relaxed">
-            Ce tableau de bord explore l'adoption des technologies numériques et des équipements robotiques
-            dans les exploitations agricoles françaises, à partir des données officielles de l'INSEE et d'Agreste.
+            Analyse de l’adoption des équipements numériques dans l’agriculture française selon le type 
+            d'exploitation et la répartition régionale, mettant en lumière les dynamiques territoriales 
+            de la transition numérique du secteur.
           </p>
         </div>
       </div>
@@ -38,10 +38,10 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
           <h2 className="text-base font-bold text-slate-800 mb-4">Objectifs</h2>
           <ul className="space-y-3">
             {[
-              "Analyser les taux d’équipement numérique par filière agricole (végétale & animale)",
-              "Comparer l’adoption technologique selon les spécialisations",
-              "Visualiser la répartition géographique des robots d’élevage par région",
-              "Identifier les disparités entre types d’exploitations",
+              "Visualiser l’ampleur et la dynamique de la transformation numérique du secteur agricole français à travers l’adoption des équipements numériques dans les exploitations.",
+              "Comparer les tendances d’adoption technologique entre les filières végétale et animale afin d’identifier les écarts de numérisation entre ces deux secteurs.",
+              "Analyser les niveaux d’équipement selon les spécialisations agricoles pour mettre en évidence les différences liées aux types de production.",
+              "Examiner la répartition régionale de cette transformation afin d’identifier les disparités territoriales dans la transition numérique.",
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
                 <span className="mt-0.5 w-4 h-4 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-[10px] font-bold flex-shrink-0">
@@ -60,8 +60,7 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">INSEE — 2023</p>
               <p className="text-sm text-slate-700 leading-relaxed">
-                Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles.
-                Couvre les filières végétale et animale par spécialisation.
+                Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles par filière et par spécialisation.
               </p>
               <a
                 href="https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883"
@@ -72,10 +71,9 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
               </a>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Agreste — ESEA 2023</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Agreste ESEA — 2023</p>
               <p className="text-sm text-slate-700 leading-relaxed">
-                Enquête sur la structure des exploitations agricoles. Détaille l'équipement en robots
-                d'élevage par région et par type de matériel.
+                Enquête sur la répartition de l'usage des technologies numériques dans les exploitations agricoles par région.
               </p>
               <a
                 href="https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/"
@@ -95,10 +93,9 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             { filiere: 'comparaison' as Filiere, title: 'Comparaison des filières', desc: "Vue radar comparative entre filières végétale et animale sur l'ensemble des indicateurs numériques." },
-            { filiere: 'vegetale' as Filiere, title: 'Spécialisation filière végétale', desc: "Détail des taux d'équipement numérique pour chaque spécialisation de la production végétale." },
-            { filiere: 'animale' as Filiere, title: 'Spécialisation filière animale', desc: "Analyse des équipements numériques dans les différentes spécialisations de l'élevage." },
-            { filiere: 'carte' as Filiere, title: 'Carte — Robotique filière animale', desc: "Choroplèthe régionale indiquant le nombre d'exploitations équipées en robots d'élevage (ESEA 2023)." },
-            { filiere: 'carte_vegetale' as Filiere, title: 'Carte — Robotique filière végétale', desc: "Choroplèthe régionale des exploitations équipées en robots pour la filière végétale (ESEA 2023)." },
+            { filiere: 'vegetale' as Filiere, title: 'Filière végétale', desc: "Détail des taux d'équipement numérique pour chaque spécialisation de la production végétale." },
+            { filiere: 'animale' as Filiere, title: 'Filière animale', desc: "Analyse des équipements numériques dans les différentes spécialisations de l'élevage." },
+            { filiere: 'carte' as Filiere, title: 'Carte — Robots', desc: "Choroplèthe régionale des exploitations équipées en robots (filière animale ou végétale). Données ESEA 2023." },
             { filiere: 'carte_precision' as Filiere, title: 'Carte — Matériels de précision', desc: "Choroplèthe régionale des exploitations équipées en matériels de précision (ESEA 2023)." },
             { filiere: 'carte_aide_decision' as Filiere, title: 'Carte — Outils d\'aide à la décision', desc: "Choroplèthe régionale des exploitations équipées en outils d'aide à la décision (ESEA 2023)." },
             { filiere: 'carte_logiciels' as Filiere, title: 'Carte — Logiciels spécialisés', desc: "Choroplèthe régionale des exploitations équipées en logiciels spécialisés (ESEA 2023)." },

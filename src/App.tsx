@@ -10,12 +10,12 @@ import { equipementData, filiereColors } from './data/equipement';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 import type { Filiere, Echelle } from './types';
 import { CARTE_FILIERES } from './types';
-import { Info, ChevronLeft, ChevronRight, Minus, SquareRadical, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Minus, SquareRadical, Search, Info } from 'lucide-react';
 
 const outilOptionsAnimal = [
-  { value: 'Robot affouragement', label: 'Robot affouragement' },
+  { value: 'Robot affouragement', label: "Robot d'affouragement" },
   { value: 'Distributeur automatique', label: 'Distributeur automatique' },
-  { value: 'Systeme nettoyage automatise', label: 'Système nettoyage automatisé' },
+  { value: 'Systeme nettoyage automatise', label: 'Système de nettoyage automatisé' },
   { value: 'Paillage automatise', label: 'Paillage automatisé' },
   { value: 'Robot de traite', label: 'Robot de traite' },
 ];
@@ -40,20 +40,20 @@ const outilOptionsPrecision = [
 ];
 
 const outilOptionsAideDecision = [
-  { value: 'Suivi irrigation', label: 'Suivi irrigation' },
-  { value: 'Suivi traitements phytosanitaires', label: 'Suivi traitements phytosanitaires' },
-  { value: 'Suivi fertilisation', label: 'Suivi fertilisation' },
+  { value: 'Suivi irrigation', label: 'Suivi de l\'irrigation' },
+  { value: 'Suivi traitements phytosanitaires', label: 'Suivi de traitements phytosanitaires' },
+  { value: 'Suivi fertilisation', label: 'Suivi de lafertilisation' },
   { value: 'Cartographie de précision', label: 'Cartographie de précision' },
   { value: 'Station météo connectée', label: 'Station météo connectée' },
   { value: 'Pilotage du climat des serres', label: 'Pilotage du climat des serres' },
 ];
 
 const outilOptionsLogiciels = [
-  { value: 'De la comptabilité', label: 'De la comptabilité' },
-  { value: "De l'activité commerciale", label: "De l'activité commerciale" },
-  { value: 'Des cultures', label: 'Des cultures' },
-  { value: 'Des prairies', label: 'Des prairies' },
-  { value: 'Du cheptel', label: 'Du cheptel' },
+  { value: 'De la comptabilité', label: 'Comptabilité' },
+  { value: "De l'activité commerciale", label: "Activité commerciale" },
+  { value: 'Des cultures', label: 'Cultures' },
+  { value: 'Des prairies', label: 'Prairies' },
+  { value: 'Du cheptel', label: 'Cheptel' },
 ];
 
 const outilOptionsByFiliere: Record<string, { value: string; label: string }[]> = {
@@ -65,8 +65,8 @@ const outilOptionsByFiliere: Record<string, { value: string; label: string }[]> 
 };
 
 const mapChartConfig: Record<string, { csv: string; titre: string }> = {
-  carte: { csv: '/robotique_animal.csv', titre: 'Robotique agricole' },
-  carte_vegetale: { csv: '/robotique_vegetale.csv', titre: 'Robotique filière végétale' },
+  carte: { csv: '/robotique_animal.csv', titre: 'Robots — Filière animale' },
+  carte_vegetale: { csv: '/robotique_vegetale.csv', titre: 'Robots — Filière végétale' },
   carte_precision: { csv: '/agriculture_precision.csv', titre: 'Matériels de précision' },
   carte_aide_decision: { csv: '/outils_aide_decision.csv', titre: "Outils d'aide à la décision" },
   carte_logiciels: { csv: '/logiciels_specialises.csv', titre: 'Logiciels spécialisés' },
@@ -75,10 +75,9 @@ const mapChartConfig: Record<string, { csv: string; titre: string }> = {
 const filiereOptions: { value: Filiere; label: string; icon: 'accueil' | 'radar' | 'carte' }[] = [
   { value: 'accueil', label: 'Accueil', icon: 'accueil' },
   { value: 'comparaison', label: 'Comparaison des filières', icon: 'radar' },
-  { value: 'vegetale', label: 'Spécialisation filière végétale', icon: 'radar' },
-  { value: 'animale', label: 'Spécialisation filière animale', icon: 'radar' },
-  { value: 'carte', label: 'Robotique filière animale', icon: 'carte' },
-  { value: 'carte_vegetale', label: 'Robotique filière végétale', icon: 'carte' },
+  { value: 'vegetale', label: 'Filière végétale', icon: 'radar' },
+  { value: 'animale', label: 'Filière animale', icon: 'radar' },
+  { value: 'carte', label: 'Robots', icon: 'carte' },
   { value: 'carte_precision', label: 'Matériels de précision', icon: 'carte' },
   { value: 'carte_aide_decision', label: 'Outils d\'aide à la décision', icon: 'carte' },
   { value: 'carte_logiciels', label: 'Logiciels spécialisés', icon: 'carte' },
@@ -92,14 +91,14 @@ const echelleOptions = [
 
 const titles: Record<string, string> = {
   comparaison: 'Comparaison des filières agricoles',
-  vegetale: 'Spécialisation filière végétale - Équipement par spécialisation',
-  animale: 'Spécialisation filière animale - Équipement par spécialisation',
+  vegetale: 'Filière végétale - Taux d\'équipement par spécialisation',
+  animale: 'Filière animale - Taux d\'équipement par spécialisation',
 };
 
 const subtitles: Record<string, string> = {
-  comparaison: "Taux moyens d'équipement numérique par type",
-  vegetale: "Taux d'équipement numérique par spécialisation",
-  animale: "Taux d'équipement numérique par spécialisation",
+  comparaison: "Part des exploitations équipées pour chaque type d'équipement",
+  vegetale: "Part des exploitations équipées pour chaque type d'équipement par spécialisation",
+  animale: "Part des exploitations équipées pour chaque type d'équipement par spécialisation",
 };
 
 const echelleNotes: Record<Echelle, string> = {
@@ -108,13 +107,20 @@ const echelleNotes: Record<Echelle, string> = {
   logarithmique: '(échelle logarithmique - zoom maximal sur petites valeurs)'
 };
 
+const robotiqueFiliereOptions = [
+  { value: 'animale', label: 'Filière animale' },
+  { value: 'vegetale', label: 'Filière végétale' },
+];
+
 export default function App() {
   const [outilSelectionne, setOutilSelectionne] = useState('Distributeur automatique');
   const [filiere, setFiliere] = useState<Filiere>('accueil');
+  const [robotiqueFiliere, setRobotiqueFiliere] = useState<'animale' | 'vegetale'>('animale');
   const [echelle, setEchelle] = useState<Echelle>('lineaire');
   const [selectedSpecs, setSelectedSpecs] = useState<Set<string>>(new Set());
   const [selectedFilieres, setSelectedFilieres] = useState<Set<string>>(new Set(['vegetale', 'animale']));
 
+  const effectiveCarteKey = filiere === 'carte' ? (robotiqueFiliere === 'animale' ? 'carte' : 'carte_vegetale') : filiere;
   const specialisations = useMemo(() => {
     if (filiere === 'comparaison' || CARTE_FILIERES.includes(filiere)) return [];
     return [...new Set(
@@ -133,11 +139,12 @@ export default function App() {
   }, [filiere]);
 
   useEffect(() => {
-    const options = outilOptionsByFiliere[filiere];
+    const key = filiere === 'carte' ? (robotiqueFiliere === 'animale' ? 'carte' : 'carte_vegetale') : filiere;
+    const options = outilOptionsByFiliere[key];
     if (options && !options.some(o => o.value === outilSelectionne)) {
       setOutilSelectionne(options[0].value);
     }
-  }, [filiere, outilSelectionne]);
+  }, [filiere, robotiqueFiliere, outilSelectionne]);
 
   const toggleSpec = (spec: string) => {
     const next = new Set(selectedSpecs);
@@ -168,8 +175,8 @@ export default function App() {
   const getLegendItems = () => {
     if (filiere === 'comparaison') {
       return [
-        { key: 'vegetale', label: 'Spécialisation filière végétale', color: filiereColors.vegetale, active: selectedFilieres.has('vegetale') },
-        { key: 'animale', label: 'Spécialisation filière animale', color: filiereColors.animale, active: selectedFilieres.has('animale') }
+        { key: 'vegetale', label: 'Filière végétale', color: filiereColors.vegetale, active: selectedFilieres.has('vegetale') },
+        { key: 'animale', label: 'Filière animale', color: filiereColors.animale, active: selectedFilieres.has('animale') }
       ];
     }
     const colors = schemeTableau10;
@@ -235,10 +242,26 @@ export default function App() {
 
             {/* Onglet Paramètres — masqué pour la vue Accueil */}
             {filiere !== 'accueil' && (
-              <Card title={isCarteVue ? "Type d'équipement" : "Type d'échelle"}>
+              <Card title={isCarteVue ? 'Paramètres' : "Type d'échelle"}>
                 <div className="space-y-4">
-                  {isCarteVue ? (
+                  {filiere === 'carte' ? (
+                    <>
+                      <Select
+                        label="Filière"
+                        value={robotiqueFiliere}
+                        onChange={(v) => setRobotiqueFiliere(v as 'animale' | 'vegetale')}
+                        options={robotiqueFiliereOptions}
+                      />
+                      <Select
+                        label="Catégorie d'équipement"
+                        value={outilSelectionne}
+                        onChange={(v) => setOutilSelectionne(v)}
+                        options={outilOptionsByFiliere[effectiveCarteKey] ?? outilOptionsAnimal}
+                      />
+                    </>
+                  ) : isCarteVue ? (
                     <Select
+                      label="Catégorie d'équipement"
                       value={outilSelectionne}
                       onChange={(v) => setOutilSelectionne(v)}
                       options={outilOptionsByFiliere[filiere] ?? outilOptionsAnimal}
@@ -256,30 +279,35 @@ export default function App() {
 
             {filiere !== 'accueil' && (
             <Card title="Données">
-              <div className="flex gap-3">
-                <Info className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div className="space-y-4">
                 {isCarteVue ? (
-                  <div className="text-sm text-slate-600 leading-relaxed space-y-2">
-                    <p>Source : Agreste — Enquête sur la structure des exploitations agricoles (ESEA), 2023.</p>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Agreste ESEA — 2023</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      Enquête sur la répartition de l'usage des technologies numériques dans les exploitations agricoles par région.
+                    </p>
                     <a
                       href="https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-green-600 hover:text-green-800 font-medium underline underline-offset-2 transition-colors"
+                      className="inline-block mt-2 text-xs font-medium text-green-600 hover:text-green-800 underline underline-offset-2 transition-colors"
                     >
-                      Accéder aux données ESEA 2023
+                      Accéder aux données ESEA →
                     </a>
                   </div>
                 ) : (
-                  <div className="text-sm text-slate-600 leading-relaxed space-y-2">
-                    <p>Source : INSEE — Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles, 2023.</p>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">INSEE — 2023</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      Enquête sur l'utilisation des technologies numériques dans les exploitations agricoles par filière et par spécialisation.
+                    </p>
                     <a
                       href="https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-green-600 hover:text-green-800 font-medium underline underline-offset-2 transition-colors"
+                      className="inline-block mt-2 text-xs font-medium text-green-600 hover:text-green-800 underline underline-offset-2 transition-colors"
                     >
-                      Accéder aux données INSEE
+                      Accéder aux données INSEE →
                     </a>
                   </div>
                 )}
@@ -292,38 +320,59 @@ export default function App() {
           <div className="flex flex-col gap-4">
             {filiere === 'accueil' ? (
               <AccueilPage onViewSelect={(v) => setFiliere(v)} />
-            ) : isCarteVue && mapChartConfig[filiere] ? (
+            ) : isCarteVue && mapChartConfig[effectiveCarteKey] ? (
               <Card>
-                <MapChart
-                  outilSelectionne={outilSelectionne}
-                  csvSource={mapChartConfig[filiere].csv}
-                  titre={mapChartConfig[filiere].titre}
-                />
+                <div className="relative">
+                  <div className="absolute top-0 right-0 z-10">
+                    <span
+                      className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
+                      title="Explication de la carte"
+                    >
+                      <Info className="w-4 h-4" />
+                    </span>
+                  </div>
+                  <MapChart
+                    outilSelectionne={outilSelectionne}
+                    outilLabel={outilOptionsByFiliere[effectiveCarteKey]?.find(o => o.value === outilSelectionne)?.label}
+                    csvSource={mapChartConfig[effectiveCarteKey].csv}
+                    titre={mapChartConfig[effectiveCarteKey].titre}
+                  />
+                </div>
               </Card>
             ) : (
               <>
             <Card>
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-slate-800">{titles[filiere]}</h2>
-                <p className="text-slate-500 mt-1">{subtitles[filiere]}</p>
-                {echelleNotes[echelle] && (
-                  <p className="text-sm text-slate-400 italic mt-1">{echelleNotes[echelle]}</p>
+              <div className="relative">
+                <div className="absolute top-0 right-0 z-10">
+                  <span
+                    className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
+                    title="Explication du graphique"
+                  >
+                    <Info className="w-4 h-4" />
+                  </span>
+                </div>
+                <div className="text-center mb-6">
+                  <h2 className="text-2xl font-bold text-slate-800">{titles[filiere]}</h2>
+                  <p className="text-slate-500 mt-1">{subtitles[filiere]}</p>
+                  {echelleNotes[echelle] && (
+                    <p className="text-sm text-slate-400 italic mt-1">{echelleNotes[echelle]}</p>
+                  )}
+                </div>
+
+                {(selectedSpecs.size === 0 && filiere !== 'comparaison') || (selectedFilieres.size === 0 && filiere === 'comparaison') ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+                    <p>Sélectionnez au moins un élément dans la légende pour afficher le graphique.</p>
+                  </div>
+                ) : (
+                <RadarChart
+                    filiere={filiere as 'comparaison' | 'vegetale' | 'animale'}
+                    echelle={echelle}
+                    selectedSpecialisations={selectedSpecs}
+                    allSpecialisations={specialisations}
+                    selectedFilieres={selectedFilieres}
+                  />
                 )}
               </div>
-
-              {(selectedSpecs.size === 0 && filiere !== 'comparaison') || (selectedFilieres.size === 0 && filiere === 'comparaison') ? (
-                <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-                  <p>Sélectionnez au moins un élément dans la légende pour afficher le graphique.</p>
-                </div>
-              ) : (
-              <RadarChart
-                  filiere={filiere as 'comparaison' | 'vegetale' | 'animale'}
-                  echelle={echelle}
-                  selectedSpecialisations={selectedSpecs}
-                  allSpecialisations={specialisations}
-                  selectedFilieres={selectedFilieres}
-                />
-              )}
             </Card>
 
             {(filiere === 'comparaison' || specialisations.length > 0) && (

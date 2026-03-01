@@ -31,7 +31,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current) return;
 
-    const popupW = filiere === 'comparaison' ? 280 : 0;
+    const popupW = filiere === 'comparaison' ? 300 : 0;
     const width = Math.min(filiere === 'comparaison' ? 1100 : 900, containerWidth || 900);
     const height = 490;
     const margin = 70;
@@ -297,7 +297,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
     ) {
       svg.select('.donut-overlay').remove();
 
-      const localPopupW = 280;
+      const localPopupW = 300;
       const popupH = 320;
       const px = fixedX;
       const py = (svgHeight - popupH) / 2;
@@ -384,10 +384,10 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
 
       const dR = 70;
       const dHole = 40;
-      const localPopupW = 280;
+      const localPopupW = 300;
       const rowH = 20;
       const titleDonutGap = 28;
-      const donutLegendGap = titleDonutGap;
+      const donutLegendGap = 40;
       const popupH = 50 + titleDonutGap + dR * 2 + donutLegendGap + usageRows.length * rowH + 16;
 
       const px = fixedX;
@@ -432,7 +432,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 10)
         .attr('fill', '#999')
-        .text(`${fil === 'vegetale' ? 'Végétale' : 'Animale'} — répartition des usages`);
+        .text(`${fil === 'vegetale' ? 'Filière végétale' : 'Filière animale'} — répartition des usages`);
 
       // Donut (with space below title for popup)
       const donutGroup = overlay.append('g')
@@ -449,9 +449,9 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
       // Tooltip (positioned above donut)
       const ttY = -dR - 20;
       const tooltip = donutGroup.append('g').attr('opacity', 0).style('pointer-events', 'none');
-      tooltip.append('rect')
-        .attr('x', -70).attr('y', ttY - 10)
-        .attr('width', 140).attr('height', 20)
+      const ttRect = tooltip.append('rect')
+        .attr('y', ttY - 10)
+        .attr('height', 20)
         .attr('rx', 4).attr('fill', '#333').attr('opacity', 0.9);
       const ttText = tooltip.append('text')
         .attr('x', 0).attr('y', ttY)
@@ -472,7 +472,10 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .style('cursor', 'pointer')
         .on('mouseenter', function(_, d) {
           d3.select(this).transition().duration(100).attr('d', arcHover as any);
-          ttText.text(`${d.data.usage} : ${d.data.part}%`);
+          const label = `${d.data.usage} : ${d.data.part}%`;
+          ttText.text(label);
+          const textW = Math.max(120, (ttText.node()?.getComputedTextLength() ?? label.length * 6) + 16);
+          ttRect.attr('x', -textW / 2).attr('width', textW);
           tooltip.attr('opacity', 1);
         })
         .on('mouseleave', function() {
@@ -489,10 +492,23 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('font-weight', '700')
         .attr('fill', '#333')
         .text(`${datum.taux}%`);
+      donutGroup.append('text')
+        .attr('y', 16)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 9)
+        .attr('fill', '#666')
+        .text("d'exploitations");
+      donutGroup.append('text')
+        .attr('y', 25)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', 9)
+        .attr('fill', '#666')
+        .text("équipées");
 
       // Usage legend — single column centered (same gap as title-donut)
+      const legendW = 260;
       const lgGrp = overlay.append('g')
-        .attr('transform', `translate(${(localPopupW - 200) / 2}, ${50 + titleDonutGap + dR * 2 + donutLegendGap})`);
+        .attr('transform', `translate(${(localPopupW - legendW) / 2}, ${50 + titleDonutGap + dR * 2 + donutLegendGap})`);
 
       usageRows.forEach((d, i) => {
         const lg = lgGrp.append('g')

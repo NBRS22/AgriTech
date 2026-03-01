@@ -21,6 +21,7 @@ interface GeoData {
 
 interface MapChartProps {
   outilSelectionne: string;
+  outilLabel?: string;
   csvSource?: string;
   titre?: string;
 }
@@ -89,7 +90,7 @@ const REGION_DISPLAY_NAMES: Record<string, string> = {
   'provence alpes cote d azur': 'Provence-Alpes-Côte d\'Azur',
 };
 
-export default function MapChart({ outilSelectionne, csvSource = '/robotique_animal.csv', titre = 'Robotique agricole' }: MapChartProps) {
+export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/robotique_animal.csv', titre = 'Robots — Filière animale' }: MapChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [robotData, setRobotData] = useState<RobotiqueRow[]>([]);
   const [geoData, setGeoData] = useState<GeoData | null>(null);
@@ -550,7 +551,7 @@ export default function MapChart({ outilSelectionne, csvSource = '/robotique_ani
     <div className="w-full">
       <div className="mb-3 px-1 text-center min-w-0">
         <h3 className="text-lg font-bold text-slate-800 break-words">
-          {titre} — {outilSelectionne}
+          {titre} — {outilLabel ?? outilSelectionne}
         </h3>
         <p className="text-xs text-slate-400 mt-0.5">
           Nombre d'exploitations équipées par région
