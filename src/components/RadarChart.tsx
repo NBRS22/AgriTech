@@ -493,13 +493,13 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('fill', '#333')
         .text(`${datum.taux}%`);
       donutGroup.append('text')
-        .attr('y', 16)
+        .attr('y', 18)
         .attr('text-anchor', 'middle')
         .attr('font-size', 9)
         .attr('fill', '#666')
         .text("d'exploitations");
       donutGroup.append('text')
-        .attr('y', 25)
+        .attr('y', 27)
         .attr('text-anchor', 'middle')
         .attr('font-size', 9)
         .attr('fill', '#666')

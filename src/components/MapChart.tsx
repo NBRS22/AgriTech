@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import { useLanguage } from '../context/LanguageContext';
 
 interface RobotiqueRow {
   region: string;
   outil: string;
   esea_2023: number;
   demi_intervalle: number;
+}
+
+interface ExploitationRow {
+  territoire: string;
+  esea_2023: number;
 }
 
 interface GeoFeature {
@@ -25,6 +31,7 @@ interface MapChartProps {
   csvSource?: string;
   titre?: string;
   farmsByRegionLabel?: string;
+  showPercent?: boolean;
 }
 
 const ABREV: Record<string, string> = {
@@ -91,14 +98,18 @@ const REGION_DISPLAY_NAMES: Record<string, string> = {
   'provence alpes cote d azur': 'Provence-Alpes-Côte d\'Azur',
 };
 
-export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/robotique_animal.csv', titre = 'Robots — Filière animale', farmsByRegionLabel = "Nombre d'exploitations équipées par région" }: MapChartProps) {
+const EXPLOITATIONS_CSV = '/exploitations_agricoles_france_2023.csv';
+
+export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/robotique_animal.csv', titre = 'Robots — Filière animale', farmsByRegionLabel = "Nombre d'exploitations équipées par région", showPercent = false }: MapChartProps) {
+  const { t } = useLanguage();
   const svgRef = useRef<SVGSVGElement>(null);
   const [robotData, setRobotData] = useState<RobotiqueRow[]>([]);
+  const [exploitationData, setExploitationData] = useState<Map<string, number>>(new Map());
   const [geoData, setGeoData] = useState<GeoData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load CSV + GeoJSON once
+  // Load CSV + GeoJSON + exploitations
   useEffect(() => {
     Promise.all([
       d3.csv(csvSource, d => ({
@@ -107,11 +118,26 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
         esea_2023: parseEsea(d.esea_2023),
         demi_intervalle: parseEsea(d.demi_intervalle),
       })).catch(() => { throw new Error('CSV'); }),
+      d3.csv(EXPLOITATIONS_CSV, (d: { Territoire?: string; Esea_2023?: string }) => ({
+        territoire: (d.Territoire ?? '').trim(),
+        esea_2023: parseEsea(d.Esea_2023),
+      })).then((rows: ExploitationRow[]) => {
+        const exclude = new Set(['france metropolitaine', 'france', 'departement et region d outre mer', 'guadeloupe', 'guyane', 'mayotte', 'martinique', 'la reunion']);
+        const map = new Map<string, number>();
+        for (const r of rows) {
+          const key = normalizeRegion(r.territoire);
+          if (key && !exclude.has(key) && !Number.isNaN(r.esea_2023) && r.esea_2023 > 0) {
+            map.set(key, r.esea_2023);
+          }
+        }
+        return map;
+      }).catch(() => new Map<string, number>()),
       fetch('/regions.geojson')
         .then(r => { if (!r.ok) throw new Error('GeoJSON'); return r.json(); })
     ])
-      .then(([csv, geo]) => {
+      .then(([csv, explMap, geo]) => {
         setRobotData(csv as RobotiqueRow[]);
+        setExploitationData(explMap as Map<string, number>);
         setGeoData(geo as GeoData);
         setLoading(false);
       })
@@ -133,20 +159,33 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     );
     const dataMap = new Map(filtered.map(d => [normalizeRegion(d.region), d]));
 
-    const vals = filtered.map(d => d.esea_2023).filter(v => v > 0).sort(d3.ascending);
+    const getDisplayValue = (d: RobotiqueRow): number => {
+      const esea = d.esea_2023;
+      if (Number.isNaN(esea) || esea <= 0) return 0;
+      if (!showPercent) return esea;
+      const total = exploitationData.get(normalizeRegion(d.region));
+      if (total == null || total <= 0 || Number.isNaN(total)) return NaN;
+      return (esea / total) * 100;
+    };
 
-    // Quantile threshold scale → 6 discrete color steps
+    const vals = filtered
+      .map(getDisplayValue)
+      .filter(v => v > 0 && !Number.isNaN(v))
+      .sort(d3.ascending);
+
     const quantileScale = d3.scaleQuantile<string>()
       .domain(vals)
       .range(COLOR_STEPS);
 
     const COLOR_NO_DATA = '#e2e8f0';
     const COLOR_ZERO = '#e8edf2';
-    const getColor = (val: { esea_2023: number } | undefined, esea: number) => {
-      const noData = val == null || Number.isNaN(esea);
+    const getColor = (val: RobotiqueRow | undefined) => {
+      if (val == null) return COLOR_NO_DATA;
+      const displayVal = getDisplayValue(val);
+      const noData = Number.isNaN(displayVal);
       if (noData) return COLOR_NO_DATA;
-      if (esea === 0) return COLOR_ZERO;
-      return quantileScale(esea);
+      if (displayVal === 0) return COLOR_ZERO;
+      return quantileScale(displayVal);
     };
 
     // Build SVG
@@ -227,7 +266,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
 
     // Region name
     const ttRegionGroup = tooltip.append('g')
-      .attr('transform', `translate(${ttPad + 8}, 10)`);
+      .attr('transform', `translate(${ttPad}, 10)`);
     const ttRegion = ttRegionGroup.append('text')
       .attr('y', 0)
       .attr('font-size', 14).attr('font-weight', '700')
@@ -240,18 +279,18 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
 
     // Divider (x2 updated dynamically)
     const ttDivider = tooltip.append('line')
-      .attr('x1', ttPad + 8).attr('y1', 36)
+      .attr('x1', ttPad).attr('y1', 36)
       .attr('x2', currentTtW - ttPad).attr('y2', 36)
       .attr('stroke', '#e2e8f0').attr('stroke-width', 1);
 
     // Exploitations label
     const ttExploitationsLabel = tooltip.append('text')
-      .attr('x', ttPad + 8).attr('y', 48)
+      .attr('x', ttPad).attr('y', 48)
       .attr('font-size', 10).attr('font-weight', '500')
       .attr('fill', '#64748b')
       .text('Exploitations équipées');
     const ttVal = tooltip.append('text')
-      .attr('x', ttPad + 8).attr('y', 64)
+      .attr('x', ttPad).attr('y', 64)
       .attr('font-size', 13).attr('font-weight', '700')
       .attr('fill', '#0f172a');
 
@@ -266,15 +305,18 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       .attr('font-weight', '600').attr('fill', '#64748b')
       .attr('y', 64);
 
-    // Ranked list pour le badge et Top 3 (exclure uniquement données non dispo, inclure 0 exploitation)
+    // Ranked list pour le badge et Top 3 (tri par valeur affichée)
     const ranked = [...filtered]
-      .filter(d => !Number.isNaN(d.esea_2023))
-      .sort((a, b) => b.esea_2023 - a.esea_2023);
-    // Classement avec ex-aequo (même rang pour même valeur)
+      .filter(d => {
+        const v = getDisplayValue(d);
+        return !Number.isNaN(v) && v > 0;
+      })
+      .sort((a, b) => getDisplayValue(b) - getDisplayValue(a));
+    // Classement avec ex-aequo (même rang pour même valeur affichée)
     const rankMap = new Map<string, number>();
     let rank = 1;
     for (let i = 0; i < ranked.length; i++) {
-      if (i > 0 && ranked[i].esea_2023 !== ranked[i - 1].esea_2023) rank = i + 1;
+      if (i > 0 && getDisplayValue(ranked[i]) !== getDisplayValue(ranked[i - 1])) rank = i + 1;
       rankMap.set(normalizeRegion(ranked[i].region), rank);
     }
 
@@ -325,15 +367,17 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       if (hasData) {
         ttDivider.attr('x2', currentTtW - ttPad).style('visibility', 'visible');
         ttExploitationsLabel.style('visibility', 'visible');
-        const eseaVal = val!.esea_2023;
-        const eseaNaN = Number.isNaN(eseaVal);
-        const eseaText = eseaNaN ? '—' : eseaVal.toLocaleString('fr-FR');
+        const displayVal = getDisplayValue(val!);
+        const displayValNaN = Number.isNaN(displayVal);
+        const eseaText = displayValNaN ? '—' : showPercent
+          ? `${displayVal.toFixed(2)} %`
+          : val!.esea_2023.toLocaleString('fr-FR');
         ttVal.style('visibility', 'visible').text(eseaText);
-        ttIcLabel.attr('x', currentTtW - ttPad).style('visibility', 'visible');
+        ttIcLabel.attr('x', currentTtW - ttPad).style('visibility', showPercent ? 'hidden' : 'visible');
         const diVal = val!.demi_intervalle;
         const diNaN = Number.isNaN(diVal);
         const diText = diNaN ? '—' : diVal > 0 ? `± ${diVal.toLocaleString('fr-FR')}` : '0';
-        ttDi.attr('x', currentTtW - ttPad).style('visibility', 'visible').text(diText);
+        ttDi.attr('x', currentTtW - ttPad).style('visibility', showPercent ? 'hidden' : 'visible').text(diText);
         rankBadgeGroup.attr('transform', `translate(${currentTtW - ttPad}, 16)`);
         rankBadgeGroup.selectAll('*').remove();
         if (rank) {
@@ -380,8 +424,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       .attr('d', d => path(d as unknown as d3.GeoPermissibleObjects) || '')
       .attr('fill', feature => {
         const val = dataMap.get(normalizeRegion(feature.properties.nom));
-        const esea = val?.esea_2023 ?? 0;
-        return getColor(val, esea);
+        return getColor(val);
       })
       .attr('stroke', '#fff')
       .attr('stroke-width', 1.5)
@@ -406,11 +449,12 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       });
 
     // ─── Region labels ───────────────────────────────────────────────
-    // Determine text color based on fill darkness
-    const getLabelColors = (val: { esea_2023: number } | undefined, esea: number) => {
-      const noData = val == null || Number.isNaN(esea);
-      if (noData || esea <= 0) return { text: '#64748b', halo: 'url(#halo-light)' };
-      const idx = COLOR_STEPS.indexOf(quantileScale(esea));
+    const getLabelColors = (val: RobotiqueRow | undefined) => {
+      if (val == null) return { text: '#64748b', halo: 'url(#halo-light)' };
+      const dv = getDisplayValue(val);
+      const noData = Number.isNaN(dv) || dv <= 0;
+      if (noData) return { text: '#64748b', halo: 'url(#halo-light)' };
+      const idx = COLOR_STEPS.indexOf(quantileScale(dv));
       return idx >= 3
         ? { text: '#ffffff', halo: 'url(#halo-dark)' }
         : { text: '#1e293b', halo: 'url(#halo-light)' };
@@ -428,10 +472,9 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       .attr('pointer-events', 'none')
       .each(function (feature) {
         const val = dataMap.get(normalizeRegion(feature.properties.nom));
-        const esea = val?.esea_2023 ?? 0;
         const isSmall = SMALL_REGIONS.has(feature.properties.nom);
         const abrev = ABREV[feature.properties.nom] ?? feature.properties.nom.slice(0, 4);
-        const { text, halo } = getLabelColors(val, esea);
+        const { text, halo } = getLabelColors(val);
         const g = d3.select(this);
 
         // Abbreviation
@@ -445,9 +488,10 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
           .attr('filter', halo)
           .text(abrev);
 
-        // Value — tiret si données non disponibles, "0" si zéro exploitation
-        const noData = val == null || Number.isNaN(esea);
-        const displayText = noData ? '—' : esea.toLocaleString('fr-FR');
+        // Value — tiret si données non disponibles, "0" si zéro
+        const dv = val ? getDisplayValue(val) : NaN;
+        const noData = val == null || Number.isNaN(dv);
+        const displayText = noData ? '—' : showPercent ? `${dv.toFixed(1)} %` : dv.toLocaleString('fr-FR');
         g.append('text')
           .attr('y', isSmall ? 5 : 7)
           .attr('dominant-baseline', 'middle')
@@ -468,7 +512,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     lgGroup.append('text')
       .attr('x', 0).attr('y', -10)
       .attr('font-size', 11).attr('font-weight', '700').attr('fill', '#1e293b')
-      .text('Exploitations équipées');
+      .text(showPercent ? t('map.legendPct') : 'Exploitations équipées');
 
     COLOR_STEPS.forEach((color, i) => {
       lgGroup.append('rect')
@@ -479,8 +523,8 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     });
 
 
-    // ─── Top 3 panel (exclut données non dispo et 0 exploitation) ──────
-    const top3 = ranked.filter(d => d.esea_2023 > 0).slice(0, 3);
+    // ─── Top 3 panel ──────
+    const top3 = ranked.slice(0, 3);
     const panelX = width - 192;
     const panelY = 60;
     const panelW = 178;
@@ -522,14 +566,17 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
         .attr('font-size', 9).attr('font-weight', '600').attr('fill', '#1e293b')
         .text(shortNom);
 
-      const countText = `${d.esea_2023.toLocaleString('fr-FR')} exploitation${d.esea_2023 !== 1 ? 's' : ''}`;
+      const disp = getDisplayValue(d);
+      const countText = showPercent
+        ? `${disp.toFixed(2)} %${t('map.percentExploitationsSuffix')}`
+        : `${d.esea_2023.toLocaleString('fr-FR')} exploitation${d.esea_2023 !== 1 ? 's' : ''}`;
       rowG.append('text')
         .attr('x', 32).attr('y', 18)
         .attr('font-size', 9).attr('fill', '#64748b')
         .text(countText);
     });
 
-  }, [robotData, geoData, outilSelectionne]);
+  }, [robotData, geoData, exploitationData, outilSelectionne, showPercent, t]);
 
   if (loading) {
     return (
@@ -555,7 +602,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
           {titre} — {outilLabel ?? outilSelectionne}
         </h3>
         <p className="text-xs text-slate-400 mt-0.5">
-          {farmsByRegionLabel}
+          {showPercent ? t('map.farmsByRegionPct') : farmsByRegionLabel}
         </p>
       </div>
       <div className="w-full overflow-x-auto">

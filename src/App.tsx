@@ -3,6 +3,7 @@ import Card from './components/Card';
 import Select from './components/Select';
 import ViewSelect from './components/ViewSelect';
 import IconSelect from './components/IconSelect';
+import MapValueToggle from './components/MapValueToggle';
 import RadarChart from './components/RadarChart';
 import MapChart from './components/MapChart';
 import AccueilPage from './components/AccueilPage';
@@ -122,6 +123,7 @@ export default function App() {
   const [echelle, setEchelle] = useState<Echelle>('lineaire');
   const [selectedSpecs, setSelectedSpecs] = useState<Set<string>>(new Set());
   const [selectedFilieres, setSelectedFilieres] = useState<Set<string>>(new Set(['vegetale', 'animale']));
+  const [mapShowPercent, setMapShowPercent] = useState(false);
 
   const filiereOptions = useMemo(() => filiereOptionKeys.map(o => ({ ...o, label: t(o.labelKey) })), [t]);
   const echelleOptions = useMemo(() => echelleOptionKeys.map(o => ({ ...o, label: t(o.labelKey) })), [t]);
@@ -209,7 +211,10 @@ export default function App() {
           {/* Sidebar */}
           <div className="space-y-4">
             {/* Logo */}
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 relative">
+              <div className="absolute top-4 right-4">
+                <LanguageSwitch />
+              </div>
               <div className="flex flex-col items-center gap-2">
                 <span
                   className="text-2xl font-extrabold tracking-tight"
@@ -225,7 +230,7 @@ export default function App() {
             </div>
 
             {/* Onglet Vue */}
-            <Card title={t('nav.view')} actions={<LanguageSwitch />}>
+            <Card title={t('nav.view')}>
               <div className="space-y-4">
                 <ViewSelect
                   value={filiere}
@@ -272,14 +277,32 @@ export default function App() {
                         onChange={(v) => setOutilSelectionne(v)}
                         options={outilOptionsTranslated[effectiveCarteKey] ?? outilOptionsTranslated.carte}
                       />
+                      {isCarteVue && (
+                        <MapValueToggle
+                          value={mapShowPercent ? 'percent' : 'count'}
+                          onChange={(v) => setMapShowPercent(v === 'percent')}
+                          label={t('param.mapValue')}
+                          countLabel={t('map.valueCount')}
+                          percentLabel={t('map.valuePercent')}
+                        />
+                      )}
                     </>
                   ) : isCarteVue ? (
-                    <Select
-                      label={t('param.equipment')}
-                      value={outilSelectionne}
-                      onChange={(v) => setOutilSelectionne(v)}
-                      options={outilOptionsTranslated[filiere] ?? outilOptionsTranslated.carte}
-                    />
+                    <>
+                      <Select
+                        label={t('param.equipment')}
+                        value={outilSelectionne}
+                        onChange={(v) => setOutilSelectionne(v)}
+                        options={outilOptionsTranslated[filiere] ?? outilOptionsTranslated.carte}
+                      />
+                      <MapValueToggle
+                        value={mapShowPercent ? 'percent' : 'count'}
+                        onChange={(v) => setMapShowPercent(v === 'percent')}
+                        label={t('param.mapValue')}
+                        countLabel={t('map.valueCount')}
+                        percentLabel={t('map.valuePercent')}
+                      />
+                    </>
                   ) : (
                     <IconSelect
                       value={echelle}
@@ -351,6 +374,7 @@ export default function App() {
                     csvSource={mapChartConfig[effectiveCarteKey].csv}
                     titre={t(mapChartConfig[effectiveCarteKey].titreKey)}
                     farmsByRegionLabel={t('map.farmsByRegion')}
+                    showPercent={mapShowPercent}
                   />
                 </div>
               </Card>

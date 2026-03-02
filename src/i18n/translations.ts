@@ -43,7 +43,8 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Params
     'param.filiere': 'Filière',
-    'param.equipment': "Catégorie d'équipement",
+    'param.equipment': 'Catégories',
+    'param.mapValue': 'Afficher par',
 
     // Map titles
     'map.robots_animale': 'Robots — Filière animale',
@@ -52,6 +53,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     'map.aide_decision': "Outils d'aide à la décision",
     'map.logiciels': 'Logiciels spécialisés',
     'map.farmsByRegion': "Nombre d'exploitations équipées par région",
+    'map.farmsByRegionPct': "Taux régional d'exploitations équipées",
+    'map.legendPct': 'Exploitations équipées',
+    'map.percentExploitationsSuffix': " d'exploitations",
+    'map.valueCount': 'Effectif',
+    'map.valuePercent': 'Taux régional',
+    'map.valueCountHint': "Nombre d'exploitations équipées par région",
+    'map.valuePercentHint': "% des exploitations de la région équipées",
     'map.equippedFarms': 'Exploitations équipées',
     'map.confidenceInterval': 'Intervalle de confiance',
     'map.topRegions': 'Top 3 régions',
@@ -181,7 +189,8 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Params
     'param.filiere': 'Sector',
-    'param.equipment': 'Equipment category',
+    'param.equipment': 'Categories',
+    'param.mapValue': 'Display by',
 
     // Map titles
     'map.robots_animale': 'Robots — Livestock sector',
@@ -190,6 +199,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     'map.aide_decision': 'Decision support tools',
     'map.logiciels': 'Specialized software',
     'map.farmsByRegion': 'Number of equipped holdings by region',
+    'map.farmsByRegionPct': 'Regional rate of equipped holdings',
+    'map.legendPct': 'Equipped holdings',
+    'map.percentExploitationsSuffix': ' of holdings',
+    'map.valueCount': 'Count',
+    'map.valuePercent': 'Regional rate',
+    'map.valueCountHint': 'Number of equipped holdings by region',
+    'map.valuePercentHint': '% of regional holdings equipped',
     'map.equippedFarms': 'Equipped holdings',
     'map.confidenceInterval': 'Confidence interval',
     'map.topRegions': 'Top 3 regions',

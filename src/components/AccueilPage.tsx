@@ -5,6 +5,8 @@ interface AccueilPageProps {
   onViewSelect?: (filiere: Filiere) => void;
 }
 
+const OBJECTIVE_KEYS = ['home.obj1', 'home.obj2', 'home.obj3', 'home.obj4'] as const;
+
 export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
   const { t } = useLanguage();
 
@@ -15,7 +17,6 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
         className="rounded-2xl p-10 text-white relative overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #14532d 0%, #166534 40%, #16a34a 100%)' }}
       >
-        {/* decorative circles */}
         <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-10" style={{ background: '#4ade80' }} />
         <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-10" style={{ background: '#bbf7d0' }} />
 
@@ -27,42 +28,33 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
             {t('home.hero')}
           </h1>
           <p className="text-green-100 text-base max-w-2xl leading-relaxed">
-’’{t('home.heroDesc')} 
+            {t('home.heroDesc')}
           </p>
         </div>
       </div>
 
-      {/* Objectifs + Sources côte à côte */}
+      {/* Objectifs + Sources */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Objectifs */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h2 className="text-base font-bold text-slate-800 mb-4">{t('home.objectives')}</h2>
           <ul className="space-y-3">
-            {[
-              "Visualiser l’ampleur et la dynamique de la transformation numérique du secteur agricole français à travers l’es exploitations.",
-              "Comparer les tendances d’adoption technologique entre les filières végétale et animale afin d’identifier les écarts de numérisation entre ces deux secteurs.",
-              "Analyser les niveaux d’équipement selon les spécialisations agricoles pour mettre en évidence les différences liées aux types de production.",
-              "Examiner la répartition régionale de cette transformation afin d’identifier les disparités territoriales dans la transition numérique.",
-            ].map((_item, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+            {OBJECTIVE_KEYS.map((key, i) => (
+              <li key={key} className="flex items-start gap-2 text-sm text-slate-600">
                 <span className="mt-0.5 w-4 h-4 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-[10px] font-bold flex-shrink-0">
                   {i + 1}
                 </span>
-                {t(['home.obj1', 'home.obj2', 'home.obj3', 'home.obj4'][i])}
+                {t(key)}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Sources */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <h2 className="text-base font-bold text-slate-800 mb-4">{t('home.sources')}</h2>
           <div className="space-y-4">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{t('data.insee')}</p>
-              <p className="text-sm text-slate-700 leading-relaxed">
-                {t('data.inseeDesc')}
-              </p>
+              <p className="text-sm text-slate-700 leading-relaxed">{t('data.inseeDesc')}</p>
               <a
                 href="https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883"
                 target="_blank" rel="noopener noreferrer"
@@ -73,9 +65,7 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
             </div>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{t('data.agreste')}</p>
-              <p className="text-sm text-slate-700 leading-relaxed">
-                {t('data.agresteDesc')}
-              </p>
+              <p className="text-sm text-slate-700 leading-relaxed">{t('data.agresteDesc')}</p>
               <a
                 href="https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/"
                 target="_blank" rel="noopener noreferrer"
@@ -116,7 +106,6 @@ export default function AccueilPage({ onViewSelect }: AccueilPageProps) {
         </div>
       </div>
 
-      {/* Footer auteurs */}
       <div className="text-center text-xs text-slate-400 pb-2">
         {t('nav.by')} <span className="font-semibold text-slate-500">Nour EL Bachari</span> &amp; <span className="font-semibold text-slate-500">Asmae HMIDANI</span>
       </div>
