@@ -1,7 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { EquipementData } from '../data/equipement';
-import { typesEquipement, equipementLabels, filiereColors, equipementData, usageData } from '../data/equipement';
+import { typesEquipement, filiereColors, equipementData, usageData } from '../data/equipement';
+import { useLanguage } from '../context/LanguageContext';
+
+const USAGE_KEY_MAP: Record<string, string> = {
+  'Comptabilité': 'radar.usage.comptabilite',
+  'Suivi des cultures': 'radar.usage.suivi_cultures',
+  'Commerce': 'radar.usage.commerce',
+  'Autre': 'radar.usage.autre',
+  'Phytosanitaire': 'radar.usage.phytosanitaire',
+  'Fertilisation': 'radar.usage.fertilisation',
+  'Irrigation': 'radar.usage.irrigation',
+  'Capteur vitesse': 'radar.usage.capteur_vitesse',
+  'Guidage haute précision': 'radar.usage.guidage_precision',
+  'Coupure tronçons': 'radar.usage.coupure_troncons',
+  'Désherbage mécanique': 'radar.usage.desherbage',
+  'Pulvérisation': 'radar.usage.pulverisation',
+  'Travail du sol': 'radar.usage.travail_sol',
+  'Gestion animaux': 'radar.usage.gestion_animaux',
+  'Surveillance (caméras, GPS)': 'radar.usage.surveillance',
+  'Régulation bâtiments': 'radar.usage.regulation_batiments',
+  'Suivi santé': 'radar.usage.suivi_sante',
+  'Alimentation': 'radar.usage.alimentation',
+  'Traite': 'radar.usage.traite',
+  'Nettoyage': 'radar.usage.nettoyage',
+  'Paillage': 'radar.usage.paillage',
+};
 
 interface RadarChartProps {
   filiere: 'comparaison' | 'vegetale' | 'animale';
@@ -12,6 +37,7 @@ interface RadarChartProps {
 }
 
 export default function RadarChart({ filiere, echelle, selectedSpecialisations, allSpecialisations, selectedFilieres }: RadarChartProps) {
+  const { t } = useLanguage();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(800);
@@ -180,7 +206,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
       labelGroup.append('text')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
-        .text(equipementLabels[type])
+        .text(t('radar.equipement.' + type))
         .attr('font-size', 11)
         .attr('font-weight', '600')
         .attr('fill', '#374151');
@@ -341,7 +367,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('font-size', 13)
         .attr('font-weight', '600')
         .attr('fill', '#64748b')
-        .text('Sélectionnez un point');
+        .text(t('radar.selectPoint'));
 
       overlay.append('text')
         .attr('x', localPopupW / 2)
@@ -349,7 +375,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 11)
         .attr('fill', '#94a3b8')
-        .text('pour voir la répartition');
+        .text(t('radar.toSeeDistribution'));
 
       overlay.append('text')
         .attr('x', localPopupW / 2)
@@ -357,7 +383,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 11)
         .attr('fill', '#94a3b8')
-        .text('des usages');
+        .text(t('radar.ofUsages'));
     }
 
     // Donut drawing function
@@ -417,6 +443,9 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('filter', 'url(#dshadow)');
 
       // Title
+      const equipLabel = datum.equipement === 'robot' && fil === 'animale'
+        ? t('radar.equipement.robot_animale')
+        : t('radar.equipement.' + datum.equipement);
       overlay.append('text')
         .attr('x', localPopupW / 2)
         .attr('y', 22)
@@ -424,7 +453,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('font-size', 13)
         .attr('font-weight', '700')
         .attr('fill', '#222')
-        .text(equipementLabels[datum.equipement]);
+        .text(equipLabel);
 
       overlay.append('text')
         .attr('x', localPopupW / 2)
@@ -432,7 +461,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 10)
         .attr('fill', '#999')
-        .text(`${fil === 'vegetale' ? 'Filière végétale' : 'Filière animale'} — répartition des usages`);
+        .text(`${fil === 'vegetale' ? t('radar.filiere_vegetale') : t('radar.filiere_animale')} — ${t('radar.usage_repartition')}`);
 
       // Donut (with space below title for popup)
       const donutGroup = overlay.append('g')
@@ -472,7 +501,8 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .style('cursor', 'pointer')
         .on('mouseenter', function(_, d) {
           d3.select(this).transition().duration(100).attr('d', arcHover as any);
-          const label = `${d.data.usage} : ${d.data.part}%`;
+          const usageLabel = USAGE_KEY_MAP[d.data.usage] ? t(USAGE_KEY_MAP[d.data.usage]) : d.data.usage;
+          const label = `${usageLabel} : ${d.data.part}%`;
           ttText.text(label);
           const textW = Math.max(120, (ttText.node()?.getComputedTextLength() ?? label.length * 6) + 16);
           ttRect.attr('x', -textW / 2).attr('width', textW);
@@ -497,13 +527,13 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('text-anchor', 'middle')
         .attr('font-size', 9)
         .attr('fill', '#666')
-        .text("d'exploitations");
+        .text(t('radar.exploitations'));
       donutGroup.append('text')
         .attr('y', 27)
         .attr('text-anchor', 'middle')
         .attr('font-size', 9)
         .attr('fill', '#666')
-        .text("équipées");
+        .text(t('radar.equipees'));
 
       // Usage legend — single column centered (same gap as title-donut)
       const legendW = 260;
@@ -519,13 +549,14 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
           .attr('y', -1)
           .attr('rx', 2)
           .attr('fill', colorDonut(d.usage));
+        const usageLabel = USAGE_KEY_MAP[d.usage] ? t(USAGE_KEY_MAP[d.usage]) : d.usage;
         lg.append('text')
           .attr('x', 13)
           .attr('y', 3)
           .attr('dominant-baseline', 'middle')
           .attr('font-size', 10)
           .attr('fill', '#555')
-          .text(`${d.usage} (${d.part}%)`);
+          .text(`${usageLabel} (${d.part}%)`);
       });
     }
 
@@ -539,7 +570,7 @@ export default function RadarChart({ filiere, echelle, selectedSpecialisations, 
         .attr('viewBox', [0, 0, width, newHeight]);
     }
 
-  }, [filiere, echelle, selectedSpecialisations, selectedFilieres, containerWidth]);
+  }, [filiere, echelle, selectedSpecialisations, selectedFilieres, containerWidth, t]);
 
   return (
     <div ref={containerRef} className="w-full">

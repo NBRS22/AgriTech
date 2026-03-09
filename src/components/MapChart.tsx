@@ -288,7 +288,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       .attr('x', ttPad).attr('y', 48)
       .attr('font-size', 10).attr('font-weight', '500')
       .attr('fill', '#64748b')
-      .text('Exploitations équipées');
+      .text(t('map.equippedFarms'));
     const ttVal = tooltip.append('text')
       .attr('x', ttPad).attr('y', 64)
       .attr('font-size', 13).attr('font-weight', '700')
@@ -299,7 +299,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
       .attr('text-anchor', 'end').attr('font-size', 10)
       .attr('font-weight', '500').attr('fill', '#64748b')
       .attr('y', 48)
-      .text('Intervalle de confiance');
+      .text(t('map.confidenceInterval'));
     const ttDi = tooltip.append('text')
       .attr('text-anchor', 'end').attr('font-size', 11)
       .attr('font-weight', '600').attr('fill', '#64748b')
@@ -512,7 +512,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     lgGroup.append('text')
       .attr('x', 0).attr('y', -10)
       .attr('font-size', 11).attr('font-weight', '700').attr('fill', '#1e293b')
-      .text(showPercent ? t('map.legendPct') : 'Exploitations équipées');
+      .text(showPercent ? t('map.legendPct') : t('map.equippedFarms'));
 
     COLOR_STEPS.forEach((color, i) => {
       lgGroup.append('rect')
@@ -539,7 +539,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     panel.append('text')
       .attr('x', 12).attr('y', 18)
       .attr('font-size', 10).attr('font-weight', '700').attr('fill', '#64748b')
-      .text('TOP RÉGIONS');
+      .text(t('map.topRegions'));
 
     const medalColors = ['#f59e0b', '#94a3b8', '#b45309'];
     top3.forEach((d, i) => {
@@ -582,7 +582,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3 text-slate-400">
         <div className="w-8 h-8 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
-        <span className="text-sm">Chargement de la carte…</span>
+        <span className="text-sm">{t('map.loading')}</span>
       </div>
     );
   }
@@ -590,7 +590,7 @@ export default function MapChart({ outilSelectionne, outilLabel, csvSource = '/r
   if (error) {
     return (
       <div className="flex items-center justify-center h-64 text-red-400 text-sm">
-        <span>{error}</span>
+        <span>{t('map.error')}</span>
       </div>
     );
   }

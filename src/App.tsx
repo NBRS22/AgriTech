@@ -11,8 +11,9 @@ import { equipementData, filiereColors } from './data/equipement';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 import type { Filiere, Echelle } from './types';
 import { CARTE_FILIERES } from './types';
-import { ChevronLeft, ChevronRight, Minus, SquareRadical, Search, Info } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Minus, SquareRadical, Search } from 'lucide-react';
 import LanguageSwitch from './components/LanguageSwitch';
+import InfoTooltip from './components/InfoTooltip';
 import { useLanguage } from './context/LanguageContext';
 
 const outilOptionsAnimal = [
@@ -115,6 +116,18 @@ const robotiqueFiliereOptionKeys = [
   { value: 'vegetale', labelKey: 'view.vegetale' },
 ];
 
+const SPEC_KEY_MAP: Record<string, string> = {
+  'Grandes cultures': 'spec.grandes_cultures',
+  'Maraîchage, horticulture': 'spec.maraichage',
+  'Viticulture': 'spec.viticulture',
+  'Fruits, autres cultures permanentes': 'spec.fruits',
+  'Polyculture, polyélevage': 'spec.polyculture',
+  'Bovins viande': 'spec.bovins_viande',
+  'Bovins lait ou mixtes (viande et lait)': 'spec.bovins_lait',
+  'Ovins, caprins, autres herbivores': 'spec.ovins_caprins',
+  'Porcins, volailles': 'spec.porcins_volailles',
+};
+
 export default function App() {
   const { t } = useLanguage();
   const [outilSelectionne, setOutilSelectionne] = useState('Distributeur automatique');
@@ -198,7 +211,7 @@ export default function App() {
     const colors = schemeTableau10;
     return specialisations.map((spec, i) => ({
       key: spec,
-      label: spec,
+      label: SPEC_KEY_MAP[spec] ? t(SPEC_KEY_MAP[spec]) : spec,
       color: colors[i % colors.length],
       active: selectedSpecs.has(spec)
     }));
@@ -361,12 +374,7 @@ export default function App() {
               <Card>
                 <div className="relative">
                   <div className="absolute top-0 right-0 z-10">
-                    <span
-                      className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
-                      title={t('map.chartInfo')}
-                    >
-                      <Info className="w-4 h-4" />
-                    </span>
+                    <InfoTooltip content={t('map.chartInfoTooltip')} />
                   </div>
                   <MapChart
                     outilSelectionne={outilSelectionne}
@@ -383,12 +391,7 @@ export default function App() {
             <Card>
               <div className="relative">
                 <div className="absolute top-0 right-0 z-10">
-                  <span
-                    className="inline-flex w-7 h-7 items-center justify-center rounded-full bg-green-100 text-green-600 cursor-default"
-                    title={t('map.radarInfo')}
-                  >
-                    <Info className="w-4 h-4" />
-                  </span>
+                  <InfoTooltip content={t('map.radarInfoTooltip')} />
                 </div>
                 <div className="text-center mb-6">
                   <h2 className="text-2xl font-bold text-slate-800">{t(titleKeys[filiere])}</h2>
