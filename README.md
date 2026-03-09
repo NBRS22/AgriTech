@@ -1,26 +1,104 @@
 # 🌿 AgriTech Dashboard
 
-> Interactive dashboard for visualizing digital and robotic equipment data in French agricultural holdings (2023).
+🔗 **Project link:** https://github.com/your-repository/agritech-dashboard
 
-**By** : Nour EL Bachari & Asmae HMIDANI
+Interactive dashboard for exploring the **digital transformation of French agricultural holdings (2023)** through robots, precision agriculture equipment, decision support tools, and specialized software.
+
+**Authors:**  
+Nour EL Bachari  
+Asmae HMIDANI
 
 ---
 
-## 📸 Overview
+## 📖 Project Overview
 
-The dashboard offers **9 views**:
+Agriculture is currently undergoing a major digital transformation.  
+Technologies such as **robots, precision equipment, software, and decision-support tools** are increasingly used to improve productivity, optimize inputs, and adapt to environmental constraints.
 
-| View | Type | Description |
-|------|------|-------------|
-| **Home** | — | Project presentation, objectives, sources and navigation to views |
-| **Sector comparison** | Radar | Crop vs livestock comparison across all indicators |
-| **Crop sector specialization** | Radar | Equipment rates by specialization (field crops, viticulture, etc.) |
-| **Livestock sector specialization** | Radar | Equipment rates by specialization (cattle, sheep, pigs, etc.) |
-| **Livestock robotics** | Map | Choropleth of livestock robots by region |
-| **Crop robotics** | Map | Choropleth of crop sector robots |
-| **Precision equipment** | Map | Choropleth of precision equipment (GPS, DPA, etc.) |
-| **Decision support tools** | Map | Choropleth of tools (irrigation, fertilization, etc.) |
-| **Specialized software** | Map | Choropleth of software (accounting, crops, livestock, etc.) |
+However, the adoption of these technologies is **not uniform**. It varies according to:
+
+- agricultural sectors (crop vs livestock),
+- regional specializations,
+- economic and climatic constraints.
+
+This project explores these differences through **interactive data visualizations** built from official French statistics.
+
+---
+
+## 🌾 Context
+
+![Agriculture numérique](https://images.unsplash.com/photo-1592982537447-7440770cbfc9)
+
+Digital technologies are becoming essential for modern agriculture.  
+They help farmers optimize irrigation, fertilization, livestock management, and crop monitoring.
+
+Understanding **where and how these technologies are adopted** is key to analyzing the digital transition of agriculture.
+
+---
+
+## 🎯 Objectives
+
+The dashboard aims to:
+
+- **Visualize** the digital transformation of French agriculture
+- **Compare** technological adoption between crop and livestock sectors
+- **Analyze** equipment rates by agricultural specialization
+- **Examine** regional disparities in technology adoption
+
+---
+
+## 📊 Dashboard Overview
+
+The dashboard contains **9 interactive views**.
+
+| View | Visualization | Description |
+|------|---------------|-------------|
+| Home | Navigation | Project presentation |
+| Sector comparison | Radar chart | Crop vs livestock equipment rates |
+| Crop specialization | Radar chart | Equipment by crop specialization |
+| Livestock specialization | Radar chart | Equipment by livestock specialization |
+| Livestock robots | Map | Regional distribution of livestock robots |
+| Crop robots | Map | Regional distribution of crop robots |
+| Precision equipment | Map | GPS, DPA, and precision agriculture equipment |
+| Decision support tools | Map | Irrigation, fertilization, and monitoring tools |
+| Specialized software | Map | Accounting, crop, and livestock management |
+
+---
+
+## 🧠 State of the Art
+
+The dashboard uses visualization techniques commonly applied in **agricultural data analysis and regional statistics**.
+
+### Radar Charts
+
+Radar charts are useful for comparing **multiple indicators across categories**.  
+They allow a direct comparison between **agricultural sectors and specializations**.
+
+They were chosen here to highlight:
+- differences between crop and livestock sectors,
+- differences between agricultural specializations,
+- equipment profiles across several digital technologies.
+
+### Choropleth Maps
+
+Choropleth maps are widely used in **regional and territorial analysis**.
+
+They make it possible to:
+- identify spatial disparities,
+- compare regions,
+- reveal concentration effects in technology adoption.
+
+They are particularly relevant here because the project focuses on **regional differences in agricultural digitalization**.
+
+### Interactive Exploration
+
+The dashboard includes:
+- dynamic filters,
+- tooltips,
+- multiple scales,
+- view navigation.
+
+These interactions improve readability and allow users to explore the dataset progressively.
 
 ---
 
@@ -28,69 +106,64 @@ The dashboard offers **9 views**:
 
 | Technology | Role |
 |------------|------|
-| **React 19** | UI library |
-| **TypeScript** | Static typing |
-| **Vite 7** | Bundler / dev server |
-| **Tailwind CSS 4** | Utility styles |
-| **D3.js 7** | Charts (radar, choropleth) |
-| **Lucide React** | Icons (radar, map, scales) |
+| React 19 | User interface |
+| TypeScript | Static typing |
+| Vite | Development server |
+| Tailwind CSS | Styling |
+| D3.js | Data visualization |
+| Lucide React | Icons |
 
 ---
 
-## 🚀 Installation & run
+## 🚀 Installation
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Run in development mode
 npm run dev
-
-# 3. Build for production
-npm run build
-
-# 4. Preview the build
-npm run preview
 ```
 
-The app is available by default at **http://localhost:5173**.
+Open the app at:
+
+```
+http://localhost:5173
+```
 
 ---
 
-## 📁 Project structure
+## 📁 Project Structure
 
 ```
 agritech-dashboard/
 ├── public/
-│   ├── robotique_animal.csv           # Livestock robots (ESEA 2023)
-│   ├── robotique_vegetale.csv         # Crop sector robots
-│   ├── agriculture_precision.csv      # Precision equipment
-│   ├── outils_aide_decision.csv       # Decision support tools
-│   ├── logiciels_specialises.csv      # Specialized software
-│   ├── exploitations_agricoles_france_2023.csv  # Holdings by region (for %)
-│   └── regions.geojson                # French region geometries
+│   ├── robotique_animal.csv
+│   ├── robotique_vegetale.csv
+│   ├── agriculture_precision.csv
+│   ├── outils_aide_decision.csv
+│   ├── logiciels_specialises.csv
+│   ├── exploitations_agricoles_france_2023.csv
+│   └── regions.geojson
 ├── src/
 │   ├── components/
-│   │   ├── AccueilPage.tsx            # Home page (hero, objectives, clickable views)
-│   │   ├── Card.tsx                   # Generic card component
-│   │   ├── IconSelect.tsx             # Dropdown with icons (scales)
-│   │   ├── InfoTooltip.tsx            # Info icon with explanatory tooltip
-│   │   ├── LanguageSwitch.tsx         # FR/EN language toggle
-│   │   ├── MapChart.tsx               # D3 choropleth map
-│   │   ├── MapValueToggle.tsx         # Toggle count vs percent for maps
-│   │   ├── RadarChart.tsx             # D3 radar chart
-│   │   ├── Select.tsx                 # Standard dropdown
-│   │   └── ViewSelect.tsx             # Dropdown with icons (views)
+│   │   ├── AccueilPage.tsx
+│   │   ├── Card.tsx
+│   │   ├── IconSelect.tsx
+│   │   ├── InfoTooltip.tsx
+│   │   ├── LanguageSwitch.tsx
+│   │   ├── MapChart.tsx
+│   │   ├── MapValueToggle.tsx
+│   │   ├── RadarChart.tsx
+│   │   ├── Select.tsx
+│   │   └── ViewSelect.tsx
 │   ├── context/
-│   │   └── LanguageContext.tsx        # i18n context (FR/EN)
+│   │   └── LanguageContext.tsx
 │   ├── data/
-│   │   └── equipement.ts              # INSEE data & types
+│   │   └── equipement.ts
 │   ├── i18n/
-│   │   └── translations.ts            # FR/EN translations
-│   ├── types.ts                       # Shared types (Filiere, Echelle)
-│   ├── App.tsx                        # Root component, layout & global state
-│   ├── index.css                      # Global styles (Tailwind)
-│   └── main.tsx                       # Entry point
+│   │   └── translations.ts
+│   ├── types.ts
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
 ├── index.html
 ├── vite.config.ts
 ├── tsconfig.json
@@ -99,59 +172,96 @@ agritech-dashboard/
 
 ---
 
-## 📊 Data sources
+## 📊 Data Sources
 
 ### INSEE — 2023
+
 Survey on the use of digital technologies in agricultural holdings.  
-Covers **crop** and **livestock** sectors by specialization (equipment rates in %).  
-🔗 [Access INSEE data](https://www.insee.fr/fr/statistiques/8616847?sommaire=8616883)
+This source provides:
+
+- equipment rates by sector,
+- specialization-level comparisons,
+- usage categories for each type of technology.
+
+🔗 https://www.insee.fr/fr/statistiques/8616847
 
 ### Agreste — ESEA 2023
+
 Survey on the structure of agricultural holdings.  
-Details equipment by region and type (robots, precision equipment, decision support tools, software).  
-🔗 [Access ESEA data](https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/)
+This source provides:
+
+- detailed regional data,
+- counts of equipped holdings,
+- categories such as robotics, precision equipment, decision-support tools, and software.
+
+🔗 https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2511/detail/
 
 ---
 
-## 🗂️ Detailed features
+## 🔍 Main Features
 
 ### Navigation
-- **Sidebar**: View selector, Previous/Next buttons, Settings (depending on view)
-- **Language switch**: FR/EN toggle (persisted in localStorage)
-- **Home page**: Clickable cards to access each view directly
 
-### Radar chart
-- Crop vs livestock sector comparison
-- Detail by specialization with filtering (clickable legend)
-- 3 scales: linear, square root, logarithmic (with icons)
-- Interactive tooltips on hover
-- **Comparison mode**: click on a point to display a donut chart of usage distribution (comptabilité, suivi cultures, etc.)
+- Sidebar with view selection
+- Previous / Next navigation
+- FR / EN language switch
+- Interactive home page
 
-### Choropleth maps (5 views)
-- Regional breakdown of mainland France (13 regions)
-- Equipment type selector depending on view
-- Quantile color scale (6 green levels)
-- Toggle **Effectif** / **Taux régional** (count vs % of holdings)
-- Adaptive labels (color based on background for readability)
-- Tooltip with rank, number of holdings and confidence interval
-- Top 3 regions panel with medals (🥇🥈🥉)
-- Info tooltip explaining the chart
+### Radar Views
+
+- Sector comparison (crop vs livestock)
+- Specialization comparison
+- Interactive legend filtering
+- Linear, square root, and logarithmic scales
+- Donut chart on point selection
+
+### Map Views
+
+- Choropleth maps of mainland France
+- Equipment selector by view
+- Quantile color scale
+- Effectif / Taux régional toggle
+- Top 3 regions panel
+- Tooltips and labels
 
 ---
 
-## 📈 Conclusion des visualisations
+## 📈 Key Insights
 
-Les visualisations du dashboard AgriTech permettent de tirer plusieurs enseignements sur la transformation numérique du secteur agricole français en 2023 :
+The visualizations reveal several major trends in the digital transformation of French agriculture.
 
-### Graphiques radar
-- **Écart filière végétale / animale** : la filière animale (bovins lait, porcins-volailles) affiche des taux d’équipement nettement plus élevés en robots et matériels de précision que la filière végétale, où les robots restent marginaux.
-- **Spécialisations les plus équipées** : polyculture-polyélevage, bovins lait et porcins-volailles sont les spécialisations les plus avancées en équipements numériques.
-- **Échelles alternatives** : les échelles racine carrée et logarithmique permettent de mieux comparer les spécialisations à faibles taux d’équipement.
+### Sector Differences
 
-### Cartes choroplèthes
-- **Concentration géographique** : les régions à forte densité d’élevage (Bretagne, Pays de la Loire, Normandie) dominent pour la robotique animale ; les régions de grandes cultures pour la précision et les logiciels.
-- **Lecture en effectif vs taux** : le basculement entre nombre d’exploitations équipées et taux régional met en évidence les régions où l’adoption est la plus forte, indépendamment de la taille du tissu agricole.
-- **Top 3 par équipement** : le panneau des trois premières régions facilite une comparaison rapide entre types d’équipements.
+The livestock sector shows higher adoption rates of robotics, especially in dairy and intensive livestock systems.
 
-### Synthèse
-Le dashboard montre une adoption encore inégale selon les filières et les régions : la filière animale et certaines spécialisations (bovins lait, porcins-volailles) sont plus avancées, tandis que la filière végétale reste en retrait pour la robotisation. Les logiciels spécialisés et les outils d’aide à la décision progressent dans l’ensemble des spécialisations, reflétant une numérisation progressive de la gestion des exploitations.
+### Precision Agriculture
+
+Precision equipment such as GPS guidance systems, DPA sensors, and localized spreaders is widely adopted in crop production.
+
+### Regional Disparities
+
+Technology adoption is strongly linked to regional agricultural specialization.
+
+Examples:
+- **Brittany** → livestock robotics
+- **Nouvelle-Aquitaine / Occitanie** → precision equipment
+- **Grand Est / Hauts-de-France** → strong technological intensity
+
+### Progressive Digitalization
+
+Specialized software and decision-support tools are broadly diffused, showing that agricultural digitalization often starts with management and optimization tools before advanced automation.
+
+---
+
+## 📌 Conclusion
+
+The AgriTech dashboard shows that the digital transformation of agriculture in France is real, but uneven.
+
+It is shaped by:
+
+- production sector,
+- regional specialization,
+- climatic constraints,
+- and economic rationality.
+
+Rather than a uniform technological revolution, the results reveal a **progressive, specialized, and territorially differentiated digital transition**.
