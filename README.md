@@ -1,6 +1,6 @@
 # 🌿 AgriTech Dashboard
 
-🔗 **Project link:** https://github.com/your-repository/agritech-dashboard
+🔗 **Project link:** https://agri-tech-iota.vercel.app/
 
 Interactive dashboard for exploring the **digital transformation of French agricultural holdings (2023)** through robots, precision agriculture equipment, decision support tools, and specialized software.
 
